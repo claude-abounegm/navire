@@ -45,6 +45,8 @@ class Nav extends NavItem {
           showArgs.push(...this._express);
         }
 
+        showArgs.push(this);
+
         if (!show.apply(this, showArgs)) {
           return;
         }
@@ -59,7 +61,8 @@ class Nav extends NavItem {
       const active =
         this._activeNavItemPath && this._activeNavItemPath.startsWith(path);
 
-      cb(
+      cb.call(
+        this,
         {
           ...props,
           level,

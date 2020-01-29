@@ -2,7 +2,7 @@ import express = require("express");
 import NavItem = require("./NavItem");
 
 declare class Nav<T = object> extends NavItem<T> {
-  constructor(opts?: Nav.CtorOpts, initFn?: NavItem.InitFn);
+  constructor(opts?: Nav.CtorOpts<T>, initFn?: Nav.InitFn<T>);
 
   traverse(
     cb: (
@@ -18,8 +18,8 @@ declare class Nav<T = object> extends NavItem<T> {
 }
 
 declare namespace Nav {
-  interface CtorOpts {
-    props?: Props;
+  interface CtorOpts<T> {
+    props?: Props<T>;
   }
 
   interface TraverseItem {
@@ -31,7 +31,7 @@ declare namespace Nav {
     readonly [key: string]: any;
   }
 
-  interface Props {
+  interface Props<T> extends T {
     title: string;
 
     icon?: string;
@@ -40,6 +40,8 @@ declare namespace Nav {
 
     [name: string]: string;
   }
+
+  type InitFn<T> = (nav: Nav<T>) => void;
 }
 
 declare global {

@@ -5,39 +5,38 @@ const NavExpress = require("../src/express");
 const { assert } = require("chai");
 
 describe("Nav", function() {
-  it("works with one link", function() {
-    const nav = new Nav({}, nav => {
-      nav.appendLink({ title: "First link" });
-    });
+  function initNav(nav) {
+    nav.appendLink({ title: "First link" });
+  }
 
+  function testNav(nav) {
     const items = [];
-    nav.traverse((item, index, traverseChildren) => {
+    nav.traverse(function(item, index, traverseChildren) {
+      assert(this === nav);
+
       items.push(item);
 
       traverseChildren();
     });
 
     assert(items.length === 1);
+  }
+
+  it("works with one link", function() {
+    const nav = new Nav({ props: { title: "App Title" } }, initNav);
+
+    testNav(nav);
   });
 
   it("middleware", function() {
-    const middleware = NavExpress.init({}, nav => {
-      nav.appendLink({ title: "First link" });
-    });
+    const middleware = NavExpress.init({}, initNav);
 
     const req = {};
     const res = {};
     middleware(req, res, e => {
       const { nav } = res;
 
-      const items = [];
-      nav.traverse((item, index, traverseChildren) => {
-        items.push(item);
-
-        traverseChildren();
-      });
-
-      assert(items.length === 1);
+      testNav(nav);
     });
   });
 });

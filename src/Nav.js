@@ -61,7 +61,7 @@ class Nav extends NavItem {
       const active =
         this._activeNavItemPath && this._activeNavItemPath.startsWith(path);
 
-      cb.call(
+      return cb.call(
         this,
         {
           ...props,
@@ -70,13 +70,19 @@ class Nav extends NavItem {
           active
         },
         index,
-        () => {
-          node.children.forEach(_traverse);
-        }
+        () => nodeForEach(node)
       );
     };
 
-    this._node.children.forEach(_traverse);
+    function nodeForEach(node) {
+      const result = [];
+      node.children.forEach((node, index) => {
+        result.push(_traverse(node, index));
+      });
+      return result;
+    }
+
+    return nodeForEach(this._node);
   }
 
   get(path) {

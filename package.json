@@ -1,0 +1,29 @@
+{
+  "name": "nav",
+  "version": "1.0.0",
+  "description": "Simple navigation",
+  "main": "src/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha test/**/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/claude-abounegm/nav.git"
+  },
+  "author": "Claude Abounegm",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/claude-abounegm/nav/issues"
+  },
+  "homepage": "https://github.com/claude-abounegm/nav#readme",
+  "devDependencies": {
+    "mocha": "^7.0.1"
+  },
+  "dependencies": {
+    "chai": "^4.2.0",
+    "tree-model": "^1.0.7"
+  }
+}

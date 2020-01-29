@@ -1,13 +1,13 @@
 {
-  "name": "nav",
-  "version": "1.0.0",
+  "name": "nav-tree",
+  "version": "1.0.1",
   "description": "Simple navigation",
   "main": "src/index.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "mocha test/**/*.js"
+    "test": "nyc mocha test/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -20,10 +20,12 @@
   },
   "homepage": "https://github.com/claude-abounegm/nav#readme",
   "devDependencies": {
-    "mocha": "^7.0.1"
+    "mocha": "^7.0.1",
+    "nyc": "^15.0.0",
+    "chai": "^4.2.0"
   },
   "dependencies": {
-    "chai": "^4.2.0",
+    "lodash": "^4.17.15",
     "tree-model": "^1.0.7"
   }
 }

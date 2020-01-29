@@ -1,10 +1,10 @@
 import express = require("express");
 
-declare class NavItem {
+declare class NavItem<T = object> {
   readonly id: string;
   readonly path: string;
   readonly level: number;
-  readonly data: object;
+  readonly data: T;
 
   activate(): void;
 

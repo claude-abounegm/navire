@@ -1,5 +1,8 @@
 "use strict";
 
+const _ = require("lodash");
+const Nav = require("../Nav");
+
 function middleware() {
   return (req, res, next) => {
     this._express = [req, res];
@@ -17,7 +20,7 @@ function middleware() {
   };
 }
 
-function express(opts, initFn) {
+function init(opts, initFn) {
   return (req, res, next) => {
     if (!_.isPlainObject(res.locals)) {
       res.locals = {};
@@ -37,4 +40,4 @@ function express(opts, initFn) {
   };
 }
 
-module.exports = express;
+module.exports = { init };

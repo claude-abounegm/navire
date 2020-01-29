@@ -1,17 +1,18 @@
 import express = require("express");
 import NavItem = require("./NavItem");
 
-declare class Nav extends NavItem {
-  constructor(opts?: Nav.CtorOpts, initFn: (nav: Nav) => void);
-  static express(opts: Nav.CtorOpts, initFn: NavItem.InitFn): express.Handler;
+declare class Nav<T = object> extends NavItem<T> {
+  constructor(opts?: Nav.CtorOpts, initFn?: NavItem.InitFn);
 
   traverse(
-    cb: (item: Nav.TraverseItem, index: number, traverse: () => void) => void
+    cb: (
+      item: Nav.TraverseItem,
+      index: number,
+      traverseChildren: () => void
+    ) => void
   ): void;
 
   get(path: string): NavItem | false;
-
-  express(): express.Handler;
 
   readonly props: Nav.Props;
 }

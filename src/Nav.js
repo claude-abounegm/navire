@@ -2,8 +2,8 @@
 
 const _ = require("lodash");
 const TreeModel = require("tree-model");
-
 const NavItem = require("./NavItem");
+const { normalizeUrl } = require("./utils/url");
 
 class Nav extends NavItem {
   constructor(opts, initFn) {
@@ -88,7 +88,7 @@ class Nav extends NavItem {
   }
 
   getByHref(href) {
-    const path = this._hrefs[href];
+    const path = this._hrefs[normalizeUrl(href)];
     return this.get(path);
   }
 

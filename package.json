@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "lodash": "^4.17.15",
+    "normalize-url": "^4.5.0",
     "tree-model": "^1.0.7"
   }
 }

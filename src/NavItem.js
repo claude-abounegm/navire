@@ -1,6 +1,7 @@
 "use strict";
 
 const _ = require("lodash");
+const { normalizeUrl } = require("./utils/url");
 
 class NavItem {
   constructor(opts) {
@@ -206,7 +207,10 @@ class NavItem {
     _map[path] = navItem;
 
     if (props.href) {
-      _hrefs[props.href] = path;
+      const { href } = props;
+
+      _hrefs[href] = path;
+      _hrefs[normalizeUrl(href)] = path;
     }
 
     return navItem;

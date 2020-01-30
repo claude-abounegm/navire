@@ -1,5 +1,3 @@
-"use strict";
-
 const { Nav } = require("../src");
 const NavExpress = require("../src/express");
 const { assert } = require("chai");
@@ -90,7 +88,9 @@ describe("Nav", function() {
 
       assert.deepEqual(t, ["/title", ["before", "/link1", "after"]]);
 
-      assert(nav.getByHref("/") === false);
+      // assert(nav.getByHref("/") === false);
+
+      assert(nav.getByHref("/title/") !== false);
     });
   });
 });

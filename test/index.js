@@ -22,7 +22,7 @@ describe("Nav", function() {
      */
     function testNav(nav) {
       const items = [];
-      nav.traverse(function(item, index, traverseChildren) {
+      nav.traverse(function(item, traverseChildren) {
         assert(this === nav);
 
         items.push(item);
@@ -33,13 +33,13 @@ describe("Nav", function() {
       assert(items.length === 1);
     }
 
-    it("indepentently", function() {
+    it("using ctor", function() {
       const nav = new Nav({ props }, initNav);
 
       testNav(nav);
     });
 
-    it("with middleware", function() {
+    it("using middleware", function() {
       const middleware = NavExpress.init({ props }, initNav);
 
       const req = {};
@@ -63,10 +63,10 @@ describe("Nav", function() {
       });
     }
 
-    it("indepentently", function() {
+    it("using ctor", function() {
       const nav = new Nav({ props: { title: "App Title" } }, initNav);
 
-      const t = nav.traverse((item, index, traverseChildren) => {
+      const t = nav.traverse((item, traverseChildren) => {
         if (item.type === "link") {
           return item.href;
         }
@@ -74,7 +74,7 @@ describe("Nav", function() {
         return ["before", ...traverseChildren(), "after"];
       });
 
-      console.log(t);
+      assert.deepEqual(t, [["before", "/link1", "after"]]);
     });
   });
 });

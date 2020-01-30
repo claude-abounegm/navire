@@ -61,17 +61,15 @@ class Nav extends NavItem {
       const active =
         this._activeNavItemPath && this._activeNavItemPath.startsWith(path);
 
-      return cb.call(
-        this,
-        {
-          ...props,
-          level,
-          id,
-          active
-        },
-        index,
-        () => traverseChildren(node)
-      );
+      const item = {
+        ...props,
+        level,
+        id,
+        active,
+        path
+      };
+
+      return cb.call(this, item, index, () => traverseChildren(node));
     };
 
     function traverseChildren(node) {

@@ -153,9 +153,12 @@ class NavItem {
 
     delete props.path;
 
-    const id = `${(path || "item")
-      .toLowerCase()
-      .replace(/[\s\.]+/g, "-")}-${Date.now()}`;
+    let id;
+    if (path) {
+      id = path.toLowerCase().replace(/[\s\.]+/g, "-");
+    } else {
+      id = `item-${Date.now()}`;
+    }
 
     const node = this._node.addChild(
       _treeModel.parse({

@@ -210,7 +210,11 @@ class NavItem {
       const { href } = props;
 
       _hrefs[href] = path;
-      _hrefs[normalizeUrl(href)] = path;
+
+      const { url: normalizedUrl } = normalizeUrl(href);
+      if (normalizedUrl !== href) {
+        _hrefs[normalizedUrl] = path;
+      }
     }
 
     return navItem;

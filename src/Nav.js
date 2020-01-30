@@ -88,7 +88,9 @@ class Nav extends NavItem {
   }
 
   getByHref(href) {
-    const path = this._hrefs[normalizeUrl(href)];
+    const { href: normalizedHref } = normalizeUrl(href);
+
+    const path = this._hrefs[normalizedHref];
     return this.get(path);
   }
 

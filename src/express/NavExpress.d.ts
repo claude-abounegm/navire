@@ -3,7 +3,7 @@ import Nav from "../Nav";
 import NavItem from "../NavItem";
 
 declare class NavExpress {
-  static init(opts: Nav.CtorOpts, initFn: NavItem.InitFn): e.Handler;
+  static init<T>(opts: Nav.CtorOpts<T>, initFn: NavItem.InitFn): e.Handler;
 }
 
 export = NavExpress;

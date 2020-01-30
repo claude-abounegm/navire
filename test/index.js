@@ -6,10 +6,20 @@ const { assert } = require("chai");
 
 describe("Nav", function() {
   describe("should work with one link", function() {
+    const props = { title: "App Title" };
+
+    /**
+     *
+     * @param {Nav} nav
+     */
     function initNav(nav) {
-      nav.appendLink({ title: "First link" });
+      nav.appendLink({ title: "Link1", href: "/link1" });
     }
 
+    /**
+     *
+     * @param {Nav} nav
+     */
     function testNav(nav) {
       const items = [];
       nav.traverse(function(item, index, traverseChildren) {
@@ -24,13 +34,13 @@ describe("Nav", function() {
     }
 
     it("indepentently", function() {
-      const nav = new Nav({ props: { title: "App Title" } }, initNav);
+      const nav = new Nav({ props }, initNav);
 
       testNav(nav);
     });
 
     it("with middleware", function() {
-      const middleware = NavExpress.init({}, initNav);
+      const middleware = NavExpress.init({ props }, initNav);
 
       const req = {};
       const res = {};
@@ -49,7 +59,7 @@ describe("Nav", function() {
      */
     function initNav(nav) {
       nav.appendCategory({ title: "Category 1" }, nav => {
-        nav.appendLink({ title: "Link 1" });
+        nav.appendLink({ title: "Link 1", href: "/link1" });
       });
     }
 
@@ -58,10 +68,10 @@ describe("Nav", function() {
 
       const t = nav.traverse((item, index, traverseChildren) => {
         if (item.type === "link") {
-          return "link";
+          return item.href;
         }
 
-        return traverseChildren();
+        return ["before", ...traverseChildren(), "after"];
       });
 
       console.log(t);

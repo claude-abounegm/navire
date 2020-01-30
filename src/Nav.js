@@ -70,19 +70,15 @@ class Nav extends NavItem {
           active
         },
         index,
-        () => nodeForEach(node)
+        () => traverseChildren(node)
       );
     };
 
-    function nodeForEach(node) {
-      const result = [];
-      node.children.forEach((node, index) => {
-        result.push(_traverse(node, index));
-      });
-      return result;
+    function traverseChildren(node) {
+      return node.children.map((node, index) => _traverse(node, index));
     }
 
-    return nodeForEach(this._node);
+    return traverseChildren(this._node);
   }
 
   get(path) {

@@ -45,8 +45,10 @@ class NavItem {
       opts = {};
     }
 
+    const index = this._node.children.length + 1;
+
     if (title) {
-      const path = this._constructPath(title);
+      const path = this._constructPath(title, index);
 
       const navItem = this._appendChild(opts, {
         level: 0,
@@ -62,7 +64,9 @@ class NavItem {
       return navItem;
     }
 
-    this._appendChild(opts, { type: "divider" }, true);
+    const type = "divider";
+    const path = this._constructPath(type, index);
+    this._appendChild(opts, { type, path }, true);
     return this;
   }
 
@@ -137,10 +141,26 @@ class NavItem {
     return path.join(".");
   }
 
+  _generateId(type, path) {
+    let id = `${type}`;
+
+    function normalize(str) {
+      return str.toLowerCase().replace(/[\s\.]+/g, "-");
+    }
+
+    if (path) {
+      id = `${id}-${path}`;
+    } else {
+      id = `${id}-${Date.now()}`;
+    }
+
+    return normalize(id);
+  }
+
   _appendChild(opts, props, final) {
     const { index, show } = opts || {};
 
-    const { path, level = this.level + 1 } = props;
+    const { path, level = this.level + 1, type } = props;
     const { _treeModel, _map, _hrefs } = this._nav;
 
     if (path && _map[path]) {
@@ -153,14 +173,7 @@ class NavItem {
 
     delete props.path;
 
-    let id;
-    if (path) {
-      id = path.toLowerCase().replace(/[\s\.]+/g, "-");
-    } else {
-      id = `${Date.now()}`;
-    }
-
-    id = `item-${id}`;
+    const id = this._generateId(type, path);
 
     const node = this._node.addChild(
       _treeModel.parse({

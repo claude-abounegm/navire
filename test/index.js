@@ -60,6 +60,7 @@ describe("Nav", function() {
     function initNav(nav) {
       nav.appendCategory({ title: "Category 1" }, nav => {
         nav.appendLink({ title: "Link 1", href: "/link1" });
+        nav.appendDivider();
         nav.appendLink({ title: "Link 2", href: "/link2" });
       });
     }
@@ -78,13 +79,16 @@ describe("Nav", function() {
           return null;
         }
 
+        if (type === "divider") {
+          return null;
+        }
+
         return ["before", ...traverseChildren(), "after"];
       });
 
       assert.deepEqual(t, [["before", "/link1", "after"]]);
 
-      // nav.getByHref("/link2").activate();
-      // console.log(nav.activeNavPath);
+      assert(nav.getByHref("/") === false);
     });
   });
 });

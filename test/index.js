@@ -58,6 +58,8 @@ describe("Nav", function() {
      * @param {Nav} nav
      */
     function initNav(nav) {
+      nav.appendLink({ title: "Title", href: "/title" });
+
       nav.appendCategory({ title: "Category 1" }, nav => {
         nav.appendLink({ title: "Link 1", href: "/link1" });
         nav.appendDivider();
@@ -86,7 +88,7 @@ describe("Nav", function() {
         return ["before", ...traverseChildren(), "after"];
       });
 
-      assert.deepEqual(t, [["before", "/link1", "after"]]);
+      assert.deepEqual(t, ["/title", ["before", "/link1", "after"]]);
 
       assert(nav.getByHref("/") === false);
     });

@@ -45,15 +45,13 @@ class NavItem {
       opts = {};
     }
 
-    const index = this._node.children.length + 1;
+    const index = this._nextIndex;
 
     if (title) {
-      const path = this._constructPath(title, index);
-
       const navItem = this._appendChild(opts, {
         level: 0,
         title,
-        path,
+        path: [title, index],
         type: "divider-title"
       });
 
@@ -65,8 +63,9 @@ class NavItem {
     }
 
     const type = "divider";
-    const path = this._constructPath(type, index);
-    this._appendChild(opts, { type, path }, true);
+    this._appendChild(opts, { type, path: [type, index] }, true);
+    // the child we're adding is final, so we return current nav
+    // so the user can add more children to this nav element
     return this;
   }
 
@@ -81,15 +80,13 @@ class NavItem {
       throw new Error("title needs to be a string");
     }
 
-    const path = this._constructPath(title);
-
     this._appendChild(
       opts,
       {
         title,
         href: href || "#",
         icon,
-        path,
+        path: [title],
         type: "link"
       },
       true
@@ -112,12 +109,10 @@ class NavItem {
 
     const { icon } = opts;
 
-    const path = this._constructPath(title);
-
     const navItem = this._appendChild(opts, {
       title,
       icon,
-      path,
+      path: [title],
       type: "category"
     });
 
@@ -130,6 +125,10 @@ class NavItem {
 
   activate() {
     this._nav._activeNavItemPath = this.path;
+  }
+
+  get _nextIndex() {
+    return this._node.children.length + 1;
   }
 
   _constructPath(...items) {
@@ -160,10 +159,16 @@ class NavItem {
   _appendChild(opts, props, final) {
     const { index, show } = opts || {};
 
-    const { path, level = this.level + 1, type } = props;
+    let { path, level = this.level + 1, type } = props;
     const { _treeModel, _map, _hrefs } = this._nav;
 
-    if (path && _map[path]) {
+    if (_.isArray(path)) {
+      path = this._constructPath(...path);
+    } else if (!_.isString(path)) {
+      throw new Error("path needs to be an array or a string");
+    }
+
+    if (_map[path]) {
       throw new Error(`an item named "${path}" is already in use`);
     }
 
@@ -171,7 +176,10 @@ class NavItem {
       throw new Error(`nav item ${this.path} cannot have children`);
     }
 
-    delete props.path;
+    path = path.trim();
+    if (!path) {
+      throw new Error("path needs to be a string");
+    }
 
     const id = this._generateId(type, path);
 
@@ -179,10 +187,10 @@ class NavItem {
       _treeModel.parse({
         id,
         show,
-        path: path || this.path,
+        path,
         level,
         final,
-        props
+        props: _.omit(props, "path")
       })
     );
 

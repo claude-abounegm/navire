@@ -66,7 +66,7 @@ class Nav extends NavItem {
         id,
         level,
         index,
-        active,
+        active: active || false,
         path
       };
 

@@ -1,6 +1,6 @@
 {
-  "name": "nav-tree",
-  "version": "1.0.6",
+  "name": "navire",
+  "version": "1.0.0",
   "description": "Simple, elegant navigation",
   "main": "src/index.js",
   "directories": {
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/claude-abounegm/nav.git"
+    "url": "git+https://github.com/claude-abounegm/navire.git"
   },
   "author": "Claude Abounegm",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/claude-abounegm/nav/issues"
+    "url": "https://github.com/claude-abounegm/navire/issues"
   },
-  "homepage": "https://github.com/claude-abounegm/nav#readme",
+  "homepage": "https://github.com/claude-abounegm/navire#readme",
   "devDependencies": {
     "mocha": "^7.0.1",
     "nyc": "^15.0.0",

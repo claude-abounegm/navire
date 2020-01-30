@@ -1,7 +1,7 @@
 {
   "name": "nav-tree",
-  "version": "1.0.3",
-  "description": "Simple navigation",
+  "version": "1.0.4",
+  "description": "Simple, elegant navigation",
   "main": "src/index.js",
   "directories": {
     "test": "test"

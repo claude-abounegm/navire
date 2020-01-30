@@ -83,6 +83,14 @@ class Nav extends NavItem {
   get(path) {
     return this._map[path] || false;
   }
+
+  get activeNavPath() {
+    return this._activeNavItemPath || null;
+  }
+
+  get length() {
+    return this.node.children.length;
+  }
 }
 
 module.exports = Nav;

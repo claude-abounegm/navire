@@ -15,6 +15,8 @@ declare class Nav<T = object> extends NavItem<T> {
   get(path: string): NavItem | false;
 
   readonly props: Nav.Props;
+  readonly length: number;
+  readonly activeNavPath: string | null;
 }
 
 declare namespace Nav {

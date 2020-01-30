@@ -67,8 +67,10 @@ describe("Nav", function() {
       const nav = new Nav({ props: { title: "App Title" } }, initNav);
 
       const t = nav.traverse((item, traverseChildren) => {
-        if (item.type === "link") {
-          return item.href;
+        const { type, href } = item;
+
+        if (type === "link") {
+          return href;
         }
 
         return ["before", ...traverseChildren(), "after"];

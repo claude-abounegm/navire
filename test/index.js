@@ -60,6 +60,7 @@ describe("Nav", function() {
     function initNav(nav) {
       nav.appendCategory({ title: "Category 1" }, nav => {
         nav.appendLink({ title: "Link 1", href: "/link1" });
+        nav.appendLink({ title: "Link 2", href: "/link2" });
       });
     }
 
@@ -67,16 +68,23 @@ describe("Nav", function() {
       const nav = new Nav({ props: { title: "App Title" } }, initNav);
 
       const t = nav.traverse((item, traverseChildren) => {
-        const { type, href } = item;
+        const { type, href, index } = item;
 
         if (type === "link") {
-          return href;
+          if (index === 0) {
+            return href;
+          }
+
+          return null;
         }
 
         return ["before", ...traverseChildren(), "after"];
       });
 
       assert.deepEqual(t, [["before", "/link1", "after"]]);
+
+      // nav.getByHref("/link2").activate();
+      // console.log(nav.activeNavPath);
     });
   });
 });

@@ -141,7 +141,7 @@ class NavItem {
     const { index, show } = opts || {};
 
     const { path, level = this.level + 1 } = props;
-    const { _treeModel, _map } = this._nav;
+    const { _treeModel, _map, _hrefs } = this._nav;
 
     if (path && _map[path]) {
       throw new Error(`an item named "${path}" is already in use`);
@@ -157,8 +157,10 @@ class NavItem {
     if (path) {
       id = path.toLowerCase().replace(/[\s\.]+/g, "-");
     } else {
-      id = `item-${Date.now()}`;
+      id = `${Date.now()}`;
     }
+
+    id = `item-${id}`;
 
     const node = this._node.addChild(
       _treeModel.parse({
@@ -181,6 +183,10 @@ class NavItem {
     });
 
     _map[path] = navItem;
+
+    if (props.href) {
+      _hrefs[props.href] = path;
+    }
 
     return navItem;
   }

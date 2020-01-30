@@ -19,6 +19,7 @@ class Nav extends NavItem {
     this._treeModel = treeModel;
     this._nav = this;
     this._map = {};
+    this._hrefs = {};
     this._props = _.isPlainObject(props) ? { ...props } : {};
 
     if (_.isFunction(initFn)) {
@@ -58,15 +59,15 @@ class Nav extends NavItem {
 
       lastType = type;
 
-      const active =
-        this._activeNavItemPath && this._activeNavItemPath.startsWith(path);
+      const activePath = this._activeNavItemPath || "";
+      const active = activePath.startsWith(path);
 
       const item = {
         ...props,
         id,
         level,
         index,
-        active: active || false,
+        active,
         path
       };
 
@@ -74,7 +75,9 @@ class Nav extends NavItem {
     };
 
     function traverseChildren(node) {
-      return node.children.map((node, index) => _traverse(node, index));
+      return node.children
+        .map((node, index) => _traverse(node, index))
+        .filter(item => item !== null);
     }
 
     return traverseChildren(this._node);
@@ -82,6 +85,11 @@ class Nav extends NavItem {
 
   get(path) {
     return this._map[path] || false;
+  }
+
+  getByHref(href) {
+    const path = this._hrefs[href];
+    return this.get(path);
   }
 
   get activeNavPath() {

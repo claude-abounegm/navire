@@ -13,6 +13,7 @@ declare class Nav<T = object> extends NavItem<T> {
   ): void;
 
   get(path: string): NavItem | false;
+  getByHref(href: string): NavItem | false;
 
   readonly props: Nav.Props;
   readonly length: number;

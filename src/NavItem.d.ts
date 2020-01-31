@@ -31,6 +31,7 @@ declare namespace NavItem {
 
   interface TitleOpts extends AppendOpts {
     title: string;
+    icon?: string;
   }
 
   interface CategoryOpts extends TitleOpts {

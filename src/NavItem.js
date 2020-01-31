@@ -44,6 +44,8 @@ class NavItem {
     } else if (_.isString(opts)) {
       title = opts;
       opts = {};
+    } else {
+      opts = {};
     }
 
     const index = this._nextIndex;

@@ -40,6 +40,27 @@ class NavItem {
     return this._node.model;
   }
 
+  append(itemsOrInitFn) {
+    if (_.isFunction(itemsOrInitFn)) {
+      const ret = itemsOrInitFn(this);
+
+      if (_.isArray(ret)) {
+        this.append(ret);
+      }
+    } else if (_.isArray(itemsOrInitFn)) {
+      itemsOrInitFn.forEach(item => this.append(item));
+    } else if (_.isPlainObject(itemsOrInitFn)) {
+      const { type, children, ...rest } = itemsOrInitFn;
+      const fnName = `append${_.startCase(type)}`;
+
+      if (!this[fnName]) {
+        throw new Error(`could not add item with type: ${type}`);
+      }
+
+      this[fnName](rest, children);
+    }
+  }
+
   appendDivider(opts, initFn) {
     let title;
 
@@ -64,9 +85,7 @@ class NavItem {
         type: "divider-title"
       });
 
-      if (_.isFunction(initFn)) {
-        initFn(navItem);
-      }
+      navItem.append(initFn);
 
       return navItem;
     }
@@ -125,9 +144,7 @@ class NavItem {
       type: "category"
     });
 
-    if (_.isFunction(initFn)) {
-      initFn(navItem);
-    }
+    navItem.append(initFn);
 
     return navItem;
   }
@@ -232,22 +249,6 @@ class NavItem {
     }
 
     return navItem;
-  }
-
-  _appendItems(nav, navItems) {
-    for (const { type, children, ...rest } of navItems) {
-      const fnName = `append${_.startCase(type)}`;
-
-      if (!nav[fnName]) {
-        throw new Error(`could not add item with type: ${type}`);
-      }
-
-      const result = nav[fnName](rest);
-
-      if (children) {
-        this._appendItems(result, children);
-      }
-    }
   }
 }
 

@@ -3,6 +3,7 @@ import NavItem from "./NavItem";
 
 declare class Nav<T = object> extends NavItem<T> {
   constructor(opts?: Nav.CtorOpts<T>, initFn?: Nav.InitFn<T>);
+  constructor(opts?: Nav.CtorOpts<T>, initFn?: Nav.InitFnReturnArray<T>);
 
   traverse(
     cb: (
@@ -51,6 +52,7 @@ declare namespace Nav {
   }
 
   type InitFn<T> = (nav: Nav<T>) => void;
+  type InitFnReturnArray<T> = (nav: Nav<T>) => NavItem.CombinedObjOpts[];
 }
 
 declare global {

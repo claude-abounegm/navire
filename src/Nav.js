@@ -23,13 +23,7 @@ class Nav extends NavItem {
     this._matches = [];
     this._props = _.isPlainObject(props) ? { ...props } : {};
 
-    if (_.isFunction(initFn)) {
-      const retNav = initFn(this);
-
-      if (_.isArray(retNav)) {
-        this._appendItems(this, retNav);
-      }
-    }
+    this.append(initFn);
   }
 
   get props() {

@@ -100,7 +100,7 @@ describe("Nav", function() {
 
 describe("Nav", function() {
   it("ctor with array", function() {
-    const nav = new Nav({}, () => [
+    const nav = new Nav({ props: { title: "Foo" } }, nav => [
       {
         type: "link",
         title: "Title",
@@ -110,14 +110,15 @@ describe("Nav", function() {
       {
         type: "category",
         title: "Category 1",
-        children: [
+        children: () => [
           { type: "link", title: "Link 1", href: "/link1" },
-          { type: "divider", title: "Divider" },
+          { type: "divider", title: nav.props.title },
           { type: "link", title: "Link 2", href: "/link2" }
         ]
       }
     ]);
 
+    assert(nav.get("Category 1.Foo.2") !== false);
     assert(nav.find("/link1") !== false);
   });
 });

@@ -9,13 +9,17 @@ declare class NavItem<T = object> {
 
   activate(): void;
 
+  append(initFn: NavItem.InitFn): void;
+  append(initFn: NavItem.InitFnReturnArray): void;
+  append(item: NavItem.CombinedObjOpts): void;
+  append(items: NavItem.CombinedObjOpts[]): void;
+
   appendLink(opts: NavItem.LinkOpts): NavItem;
+  appendCategory(opts: NavItem.CategoryOpts, initFn?: NavItem.InitFn): NavItem;
+  appendDivider(opts: NavItem.DividerOpts, initFn?: NavItem.InitFn): NavItem;
 
   appendDivider(): NavItem;
   appendDivider(title: string, initFn?: NavItem.InitFn): NavItem;
-  appendDivider(opts: NavItem.TitleOpts, initFn?: NavItem.InitFn): NavItem;
-
-  appendCategory(opts: NavItem.CategoryOpts, initFn?: NavItem.InitFn): NavItem;
 }
 
 export = NavItem;
@@ -23,11 +27,7 @@ export = NavItem;
 declare namespace NavItem {
   interface AppendOpts {
     index?: number;
-    show?: (
-      req: express.Request,
-      res: express.Response,
-      next: express.NextFunction
-    ) => boolean;
+    show?: () => boolean;
   }
 
   interface TitleOpts extends AppendOpts {
@@ -45,5 +45,27 @@ declare namespace NavItem {
     match?: RegExp;
   }
 
+  interface DividerOpts extends AppendOpts {
+    title?: string;
+  }
+
   type InitFn = (nav: NavItem) => void;
+  type InitFnReturnArray = (nav: NavItem) => CombinedObjOpts[];
+
+  type LinkObjOpts = { type: "link" } & NavItem.LinkOpts;
+
+  type DividerObjOpts = {
+    type: "divider";
+    children?: CombinedObjOpts[];
+  } & NavItem.DividerOpts;
+
+  type CategoryObjOpts = {
+    type: "category";
+    children?: CombinedObjOpts[];
+  } & NavItem.CategoryOpts;
+
+  type CombinedObjOpts =
+    | NavItem.LinkObjOpts
+    | NavItem.DividerOpts
+    | NavItem.CategoryOpts;
 }

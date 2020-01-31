@@ -50,7 +50,6 @@ class NavItem {
 
     if (title) {
       const navItem = this._appendChild(opts, {
-        level: 0,
         title,
         path: [title, index],
         type: "divider-title"

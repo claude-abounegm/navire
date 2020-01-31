@@ -1,4 +1,4 @@
-const { Nav } = require("../src");
+const Nav = require("../src");
 const NavExpress = require("../src/express");
 const { assert } = require("chai");
 
@@ -64,7 +64,7 @@ describe("Nav", function() {
 
       nav.appendCategory({ title: "Category 1" }, nav => {
         nav.appendLink({ title: "Link 1", href: "/link1" });
-        nav.appendDivider();
+        nav.appendDivider("Divider");
         nav.appendLink({ title: "Link 2", href: "/link2" });
       });
     }
@@ -83,11 +83,11 @@ describe("Nav", function() {
           return null;
         }
 
-        if (type === "divider") {
-          return null;
+        if (type === "category") {
+          return ["before", ...traverseChildren(), "after"];
         }
 
-        return ["before", ...traverseChildren(), "after"];
+        return null;
       });
 
       assert.deepEqual(t, ["/title?search=45", ["before", "/link1", "after"]]);

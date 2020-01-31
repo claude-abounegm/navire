@@ -161,7 +161,7 @@ class NavItem {
     const { index, show, match } = opts || {};
 
     let { path, level = this.level + 1, type } = props;
-    const { _treeModel, _map, _hrefs } = this._nav;
+    const { _treeModel, _map, _hrefs, _matches } = this._nav;
 
     if (_.isArray(path)) {
       path = this._constructPath(...path);
@@ -185,7 +185,8 @@ class NavItem {
     const id = this._generateId(type, path);
 
     props = _.omit(props, "path");
-    if (match) {
+    if (match instanceof RegExp) {
+      _matches.push({ match, path });
       props.match = match;
     }
 

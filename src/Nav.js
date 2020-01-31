@@ -20,6 +20,7 @@ class Nav extends NavItem {
     this._nav = this;
     this._map = {};
     this._hrefs = {};
+    this._matches = [];
     this._props = _.isPlainObject(props) ? { ...props } : {};
 
     if (_.isFunction(initFn)) {
@@ -115,16 +116,12 @@ class Nav extends NavItem {
     }
 
     if (!pathFound && href) {
-      this.traverse((item, traverseChildren) => {
-        const { match, path } = item;
-
-        if (match instanceof RegExp && match.test(href)) {
+      for (const { match, path } of this._matches) {
+        if (match.test(href)) {
           pathFound = path;
-          return;
+          break;
         }
-
-        traverseChildren();
-      });
+      }
     }
 
     return this.get(pathFound);

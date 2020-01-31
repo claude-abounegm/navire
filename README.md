@@ -1,1 +1,3 @@
-# nav-tree
+# navire
+
+Simple, elegant navigation

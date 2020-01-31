@@ -158,7 +158,7 @@ class NavItem {
   }
 
   _appendChild(opts, props, final) {
-    const { index, show } = opts || {};
+    const { index, show, match } = opts || {};
 
     let { path, level = this.level + 1, type } = props;
     const { _treeModel, _map, _hrefs } = this._nav;
@@ -184,6 +184,11 @@ class NavItem {
 
     const id = this._generateId(type, path);
 
+    props = _.omit(props, "path");
+    if (match) {
+      props.match = match;
+    }
+
     const node = this._node.addChild(
       _treeModel.parse({
         id,
@@ -191,7 +196,7 @@ class NavItem {
         path,
         level,
         final,
-        props: _.omit(props, "path")
+        props
       })
     );
 

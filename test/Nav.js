@@ -56,7 +56,11 @@ describe("Nav", function() {
      * @param {Nav} nav
      */
     function initNav(nav) {
-      nav.appendLink({ title: "Title", href: "/title?search=45" });
+      nav.appendLink({
+        title: "Title",
+        href: "/title?search=45",
+        match: /\/title/
+      });
 
       nav.appendCategory({ title: "Category 1" }, nav => {
         nav.appendLink({ title: "Link 1", href: "/link1" });
@@ -72,6 +76,7 @@ describe("Nav", function() {
         const { type, href, index } = item;
 
         if (type === "link") {
+          console.log(item);
           if (index === 0) {
             return href;
           }

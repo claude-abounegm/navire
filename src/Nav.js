@@ -6,7 +6,7 @@ const NavItem = require("./NavItem");
 const { normalizeUrl } = require("./utils/url");
 
 class Nav extends NavItem {
-  constructor(opts, initFn) {
+  constructor(opts, init) {
     const { props } = opts || {};
 
     const treeModel = new TreeModel();
@@ -21,9 +21,10 @@ class Nav extends NavItem {
     this._map = {};
     this._hrefs = {};
     this._matches = [];
+    this._showArgs = [];
     this._props = _.isPlainObject(props) ? { ...props } : {};
 
-    this.append(initFn);
+    this.append(init);
   }
 
   get props() {
@@ -34,22 +35,17 @@ class Nav extends NavItem {
     let lastType;
 
     const _traverse = (node, index) => {
-      const { show, path, level, props, id } = node.model;
-      const { type } = props;
+      const { show, path, level, data, id } = node.model;
+      const { type } = data;
 
       if (_.isFunction(show)) {
-        const showArgs = [];
-
-        // express plugin
-        if (this._express) {
-          showArgs.push(...this._express);
-        }
-
-        showArgs.push(this);
+        const showArgs = [...this._showArgs, this];
 
         if (!show.apply(this, showArgs)) {
           return;
         }
+      } else if (_.isBoolean(show) && !show) {
+        return;
       }
 
       if (type === "divider" && lastType === "divider") {
@@ -62,7 +58,7 @@ class Nav extends NavItem {
       const active = activePath.startsWith(path);
 
       const item = {
-        ...props,
+        ...data,
         id,
         level,
         index,
@@ -105,9 +101,9 @@ class Nav extends NavItem {
     if (!pathFound && match) {
       const regex = match instanceof RegExp ? match : RegExp(match);
 
-      for (const [key, value] of _.toPairs(this._hrefs)) {
-        if (regex.test(key)) {
-          pathFound = value;
+      for (const [href, path] of _.toPairs(this._hrefs)) {
+        if (regex.test(href)) {
+          pathFound = path;
           break;
         }
       }

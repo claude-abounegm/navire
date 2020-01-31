@@ -5,7 +5,7 @@ const Nav = require("../Nav");
 
 function middleware() {
   return (req, res, next) => {
-    this._express = [req, res];
+    this._showArgs.push(req, res);
 
     // TODO: Change this later to a centralized
     // app variable. This a temp workaround.

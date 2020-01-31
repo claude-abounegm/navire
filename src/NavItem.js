@@ -37,31 +37,31 @@ class NavItem {
   }
 
   get data() {
-    return this._node.model;
+    return this._node.model.data;
   }
 
-  append(itemsOrInitFn) {
-    if (_.isFunction(itemsOrInitFn)) {
-      const ret = itemsOrInitFn(this);
+  append(init) {
+    if (_.isFunction(init)) {
+      const ret = init(this);
 
       if (_.isArray(ret)) {
         this.append(ret);
       }
-    } else if (_.isArray(itemsOrInitFn)) {
-      itemsOrInitFn.forEach(item => this.append(item));
-    } else if (_.isPlainObject(itemsOrInitFn)) {
-      const { type, children, ...rest } = itemsOrInitFn;
+    } else if (_.isArray(init)) {
+      init.forEach(item => this.append(item));
+    } else if (_.isPlainObject(init)) {
+      const { type, children, ...rest } = init;
       const fnName = `append${_.startCase(type)}`;
 
       if (!this[fnName]) {
-        throw new Error(`could not add item with type: ${type}`);
+        throw new Error(`Could not add item with type: ${type}`);
       }
 
       this[fnName](rest, children);
     }
   }
 
-  appendDivider(opts, initFn) {
+  appendDivider(opts, init) {
     let title;
 
     if (_.isPlainObject(opts)) {
@@ -78,20 +78,20 @@ class NavItem {
     const { icon } = opts;
 
     if (title) {
-      const navItem = this._appendChild(opts, {
+      const navItem = this.appendChild(opts, {
         title,
         icon,
         path: [title, index],
         type: "divider-title"
       });
 
-      navItem.append(initFn);
+      navItem.append(init);
 
       return navItem;
     }
 
     const type = "divider";
-    this._appendChild(opts, { icon, type, path: [type, index] }, true);
+    this.appendChild(opts, { icon, type, path: [type, index] }, true);
     // the child we're adding is final, so we return current nav
     // so the user can add more children to this nav element
     return this;
@@ -108,7 +108,7 @@ class NavItem {
       throw new Error("title needs to be a string");
     }
 
-    this._appendChild(
+    this.appendChild(
       opts,
       {
         title,
@@ -123,28 +123,24 @@ class NavItem {
     return this;
   }
 
-  appendCategory(opts, initFn) {
-    let title;
+  appendCategory(opts, init) {
+    let { title } = opts || {};
 
-    if (_.isPlainObject(opts)) {
-      title = opts.title;
-    } else if (_.isString(opts)) {
+    if (_.isString(opts)) {
       title = opts;
       opts = {};
-    } else {
-      throw new Error("opts needs to be an object or a string");
     }
 
     const { icon } = opts;
 
-    const navItem = this._appendChild(opts, {
+    const navItem = this.appendChild(opts, {
       title,
       icon,
       path: [title],
       type: "category"
     });
 
-    navItem.append(initFn);
+    navItem.append(init);
 
     return navItem;
   }
@@ -182,11 +178,15 @@ class NavItem {
     return normalize(id);
   }
 
-  _appendChild(opts, props, final) {
-    const { index, show, match } = opts || {};
-
-    let { path, level = this.level + 1, type } = props;
-    const { _treeModel, _map, _hrefs, _matches } = this._nav;
+  appendChild(opts, data, final = false) {
+    let { index, show, match } = opts || {};
+    let { path, level = this.level + 1, type } = data;
+    const {
+      _treeModel: treeModel,
+      _map: map,
+      _hrefs: hrefs,
+      _matches: matches
+    } = this._nav;
 
     if (_.isArray(path)) {
       path = this._constructPath(...path);
@@ -194,7 +194,7 @@ class NavItem {
       throw new Error("path needs to be an array or a string");
     }
 
-    if (_map[path]) {
+    if (map[path]) {
       throw new Error(`an item named "${path}" is already in use`);
     }
 
@@ -209,20 +209,24 @@ class NavItem {
 
     const id = this._generateId(type, path);
 
-    props = _.omit(props, "path");
+    data = _.omit(data, "path");
+    if (_.isString(match)) {
+      match = RegExp(match);
+    }
+
     if (match instanceof RegExp) {
-      _matches.push({ match, path });
-      props.match = match;
+      matches.push({ match, path });
+      data.match = match;
     }
 
     const node = this._node.addChild(
-      _treeModel.parse({
+      treeModel.parse({
         id,
         show,
         path,
         level,
         final,
-        props
+        data
       })
     );
 
@@ -235,16 +239,16 @@ class NavItem {
       nav: this._nav
     });
 
-    _map[path] = navItem;
+    map[path] = navItem;
 
-    if (props.href) {
-      const { href } = props;
+    if (data.href) {
+      const { href } = data;
 
-      _hrefs[href] = path;
+      hrefs[href] = path;
 
       const { href: normalizedHref } = normalizeUrl(href);
       if (normalizedHref !== href) {
-        _hrefs[normalizedHref] = path;
+        hrefs[normalizedHref] = path;
       }
     }
 

@@ -114,6 +114,19 @@ class Nav extends NavItem {
       }
     }
 
+    if (!pathFound && href) {
+      this.traverse((item, traverseChildren) => {
+        const { match, path } = item;
+
+        if (match instanceof RegExp && match.test(href)) {
+          pathFound = path;
+          return;
+        }
+
+        traverseChildren();
+      });
+    }
+
     return this.get(pathFound);
   }
 

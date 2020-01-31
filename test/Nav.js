@@ -76,7 +76,6 @@ describe("Nav", function() {
         const { type, href, index } = item;
 
         if (type === "link") {
-          console.log(item);
           if (index === 0) {
             return href;
           }
@@ -94,7 +93,7 @@ describe("Nav", function() {
       assert.deepEqual(t, ["/title?search=45", ["before", "/link1", "after"]]);
 
       assert(nav.find("/") === false);
-      assert(nav.find(/\/title/) !== false);
+      assert(nav.find("/title") !== false);
     });
   });
 });

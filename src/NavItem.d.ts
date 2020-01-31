@@ -40,6 +40,7 @@ declare namespace NavItem {
   interface LinkOpts extends TitleOpts {
     href: string;
     icon?: string;
+    match?: RegExp;
   }
 
   type InitFn = (nav: NavItem) => void;

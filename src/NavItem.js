@@ -36,6 +36,10 @@ class NavItem {
     return this._node.model.final;
   }
 
+  get data() {
+    return this._node.model;
+  }
+
   appendDivider(opts, initFn) {
     let title;
 
@@ -228,6 +232,22 @@ class NavItem {
     }
 
     return navItem;
+  }
+
+  _appendItems(nav, navItems) {
+    for (const { type, children, ...rest } of navItems) {
+      const fnName = `append${_.startCase(type)}`;
+
+      if (!nav[fnName]) {
+        throw new Error(`could not add item with type: ${type}`);
+      }
+
+      const result = nav[fnName](rest);
+
+      if (children) {
+        this._appendItems(result, children);
+      }
+    }
   }
 }
 

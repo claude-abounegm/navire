@@ -24,7 +24,11 @@ class Nav extends NavItem {
     this._props = _.isPlainObject(props) ? { ...props } : {};
 
     if (_.isFunction(initFn)) {
-      initFn(this);
+      const retNav = initFn(this);
+
+      if (_.isArray(retNav)) {
+        this._appendItems(this, retNav);
+      }
     }
   }
 

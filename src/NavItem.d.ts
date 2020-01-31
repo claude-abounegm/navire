@@ -5,6 +5,7 @@ declare class NavItem<T = object> {
   readonly path: string;
   readonly level: number;
   readonly data: T;
+  readonly final: boolean;
 
   activate(): void;
 

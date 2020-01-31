@@ -211,9 +211,9 @@ class NavItem {
 
       _hrefs[href] = path;
 
-      const { url: normalizedUrl } = normalizeUrl(href);
-      if (normalizedUrl !== href) {
-        _hrefs[normalizedUrl] = path;
+      const { href: normalizedHref } = normalizeUrl(href);
+      if (normalizedHref !== href) {
+        _hrefs[normalizedHref] = path;
       }
     }
 

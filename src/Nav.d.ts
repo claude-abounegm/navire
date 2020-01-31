@@ -13,9 +13,11 @@ declare class Nav<T = object> extends NavItem<T> {
   ): void;
 
   get(path: string): NavItem | false;
-  find(
-    opts: { href?: string; match?: string | RegExp } | string | RegExp
-  ): NavItem | false;
+
+  find(opts: { href: string }): NavItem | false;
+  find(opts: { match: RegExp }): NavItem | false;
+  find(href: string): NavItem | false;
+  find(match: RegExp): NavItem | false;
 
   readonly props: Nav.Props;
   readonly length: number;

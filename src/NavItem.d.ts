@@ -8,13 +8,12 @@ declare class NavItem<T = object> {
 
   activate(): void;
 
-  appendDivider(opts?: NavItem.AppendOpts): NavItem;
   appendLink(opts: NavItem.LinkOpts): NavItem;
 
-  appendDivider(
-    optsOrTitle: NavItem.TitleOpts | string,
-    initFn?: NavItem.InitFn
-  ): NavItem;
+  appendDivider(): NavItem;
+  appendDivider(title: string, initFn?: NavItem.InitFn): NavItem;
+  appendDivider(opts: NavItem.TitleOpts, initFn?: NavItem.InitFn): NavItem;
+
   appendCategory(opts: NavItem.CategoryOpts, initFn?: NavItem.InitFn): NavItem;
 }
 

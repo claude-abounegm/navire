@@ -3,7 +3,6 @@
 const Nav = require("./Nav");
 const NavExpress = require("./express");
 
-module.exports = {
-  Nav,
-  NavExpress
-};
+Nav.NavExpress = NavExpress;
+
+module.exports = Nav;

@@ -48,9 +48,12 @@ class NavItem {
 
     const index = this._nextIndex;
 
+    const { icon } = opts;
+
     if (title) {
       const navItem = this._appendChild(opts, {
         title,
+        icon,
         path: [title, index],
         type: "divider-title"
       });
@@ -63,7 +66,7 @@ class NavItem {
     }
 
     const type = "divider";
-    this._appendChild(opts, { type, path: [type, index] }, true);
+    this._appendChild(opts, { icon, type, path: [type, index] }, true);
     // the child we're adding is final, so we return current nav
     // so the user can add more children to this nav element
     return this;

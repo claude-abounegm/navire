@@ -13,7 +13,9 @@ declare class Nav<T = object> extends NavItem<T> {
   ): void;
 
   get(path: string): NavItem | false;
-  getByHref(href: string): NavItem | false;
+  find(
+    opts: { href?: string; match?: string | RegExp } | string | RegExp
+  ): NavItem | false;
 
   readonly props: Nav.Props;
   readonly length: number;

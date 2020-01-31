@@ -87,11 +87,34 @@ class Nav extends NavItem {
     return this._map[path] || false;
   }
 
-  getByHref(href) {
-    const { href: normalizedHref } = normalizeUrl(href);
+  find(opts) {
+    let { href, match } = opts || {};
 
-    const path = this._hrefs[normalizedHref];
-    return this.get(path);
+    if (_.isString(opts)) {
+      href = opts;
+    } else if (opts instanceof RegExp) {
+      match = opts;
+    }
+
+    let pathFound;
+
+    if (href) {
+      const { href: normalizedHref } = normalizeUrl(href);
+      pathFound = this._hrefs[normalizedHref];
+    }
+
+    if (!pathFound && match) {
+      const regex = match instanceof RegExp ? match : RegExp(match);
+
+      for (const [key, value] of _.toPairs(this._hrefs)) {
+        if (regex.test(key)) {
+          pathFound = value;
+          break;
+        }
+      }
+    }
+
+    return this.get(pathFound);
   }
 
   get activeNavPath() {

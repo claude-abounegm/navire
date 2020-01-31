@@ -1,5 +1,5 @@
-import express = require("express");
-import NavItem = require("./NavItem");
+import express from "express";
+import NavItem from "./NavItem";
 
 declare class Nav<T = object> extends NavItem<T> {
   constructor(opts?: Nav.CtorOpts<T>, initFn?: Nav.InitFn<T>);
@@ -23,6 +23,8 @@ declare class Nav<T = object> extends NavItem<T> {
   readonly length: number;
   readonly activeNavPath: string | null;
 }
+
+export = Nav;
 
 declare namespace Nav {
   interface CtorOpts<T> {
@@ -58,5 +60,3 @@ declare global {
     }
   }
 }
-
-export = Nav;

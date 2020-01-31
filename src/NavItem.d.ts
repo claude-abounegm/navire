@@ -1,4 +1,4 @@
-import express = require("express");
+import express from "express";
 
 declare class NavItem<T = object> {
   readonly id: string;
@@ -16,6 +16,8 @@ declare class NavItem<T = object> {
 
   appendCategory(opts: NavItem.CategoryOpts, initFn?: NavItem.InitFn): NavItem;
 }
+
+export = NavItem;
 
 declare namespace NavItem {
   interface AppendOpts {
@@ -42,5 +44,3 @@ declare namespace NavItem {
 
   type InitFn = (nav: NavItem) => void;
 }
-
-export = NavItem;

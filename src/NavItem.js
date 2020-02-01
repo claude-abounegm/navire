@@ -5,20 +5,27 @@ const { normalizeUrl } = require("./utils/url");
 
 class NavItem {
   constructor(opts) {
+    if (!_.isPlainObject(opts)) {
+      throw new Error("opts needs to be an object");
+    }
+
     const { node, nav } = opts;
+
+    if (!node) {
+      throw new Error("node needs to be defined");
+    }
+
     const { model } = node;
 
+    let { path, level = 0 } = node.model;
+
     if (!_.isNumber(model.level)) {
-      model.level = 0;
+      model.level = level;
     }
 
     this._node = node;
-
-    const { path, level } = node.model;
-
     this._path = path;
     this._level = level;
-
     this._nav = nav;
 
     node.model.navItem = this;
@@ -62,20 +69,18 @@ class NavItem {
   }
 
   appendDivider(opts, init) {
-    let title;
+    let { title, icon } = (opts = opts || {});
 
-    if (_.isPlainObject(opts)) {
-      title = opts.title;
-    } else if (_.isString(opts)) {
+    if (_.isString(opts)) {
       title = opts;
-      opts = {};
-    } else {
       opts = {};
     }
 
-    const index = this._nextIndex;
+    if (!_.isPlainObject(opts)) {
+      throw new Error("opts needs to be an object");
+    }
 
-    const { icon } = opts;
+    const index = this._nextIndex;
 
     if (title) {
       const navItem = this.appendChild(opts, {
@@ -124,14 +129,16 @@ class NavItem {
   }
 
   appendCategory(opts, init) {
-    let { title } = opts || {};
+    if (!_.isPlainObject(opts)) {
+      throw new Error("opts needs to be an object");
+    }
+
+    let { title, icon } = opts || {};
 
     if (_.isString(opts)) {
       title = opts;
       opts = {};
     }
-
-    const { icon } = opts;
 
     const navItem = this.appendChild(opts, {
       title,

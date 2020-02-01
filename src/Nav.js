@@ -17,6 +17,9 @@ class Nav extends NavItem {
     });
 
     this._treeModel = treeModel;
+
+    // needed since we don't pass nav
+    // to super() before initializiation
     this._nav = this;
     this._map = {};
     this._hrefs = {};
@@ -32,6 +35,10 @@ class Nav extends NavItem {
   }
 
   traverse(cb) {
+    if (!_.isFunction(cb)) {
+      throw new Error("cb needs to be a function");
+    }
+
     let lastType;
 
     const _traverse = (node, index) => {
@@ -91,6 +98,14 @@ class Nav extends NavItem {
       match = opts;
     }
 
+    if (match && !(match instanceof RegExp)) {
+      match = RegExp(match);
+    }
+
+    if (!href && !match) {
+      throw new Error("href or match need to be specified");
+    }
+
     let pathFound;
 
     if (href) {
@@ -99,10 +114,8 @@ class Nav extends NavItem {
     }
 
     if (!pathFound && match) {
-      const regex = match instanceof RegExp ? match : RegExp(match);
-
       for (const [href, path] of _.toPairs(this._hrefs)) {
-        if (regex.test(href)) {
+        if (match.test(href)) {
           pathFound = path;
           break;
         }
@@ -126,7 +139,9 @@ class Nav extends NavItem {
   }
 
   get length() {
-    return this.node.children.length;
+    const { children } = this.node;
+
+    return (children && children.length) || 0;
   }
 }
 

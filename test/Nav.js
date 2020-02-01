@@ -93,7 +93,11 @@ describe("Nav", function() {
       assert.deepEqual(t, ["/title?search=45", ["before", "/link1", "after"]]);
 
       assert(nav.find("/") === false);
-      assert(nav.find("/title?x=5") !== false);
+
+      const titleNav = nav.find("/title?x=5");
+      assert(titleNav !== false);
+
+      assert(titleNav.level === 0);
     });
   });
 });

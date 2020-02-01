@@ -10,11 +10,9 @@ class Nav extends NavItem {
     const { props } = opts || {};
 
     const treeModel = new TreeModel();
-    const root = treeModel.parse({ root: true, path: "" });
+    const rootNode = treeModel.parse({ root: true, path: "", level: -1 });
 
-    super({
-      node: root
-    });
+    super({ node: rootNode });
 
     this._treeModel = treeModel;
 
@@ -139,6 +137,10 @@ class Nav extends NavItem {
   }
 
   get length() {
+    if (!this.node) {
+      return 0;
+    }
+
     const { children } = this.node;
 
     return (children && children.length) || 0;

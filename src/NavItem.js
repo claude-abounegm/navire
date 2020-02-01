@@ -17,10 +17,9 @@ class NavItem {
 
     const { model } = node;
 
-    let { path, level = 0 } = node.model;
-
-    if (!_.isNumber(model.level)) {
-      model.level = level;
+    let { path, level } = model;
+    if (!_.isNumber(level)) {
+      level = model.level = 0;
     }
 
     this._node = node;

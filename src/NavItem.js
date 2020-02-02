@@ -79,6 +79,97 @@ class NavItem {
     }
   }
 
+  appendChild(opts, data, final = false) {
+    let { index, show, match } = opts || {};
+    let { path, level, type } = data;
+
+    const {
+      _treeModel: treeModel,
+      _map: map,
+      _hrefs: hrefs,
+      _matches: matches
+    } = this._nav;
+
+    if (!_.isNumber(level)) {
+      level = this.level;
+
+      // divider title can have children, but
+      // they get the same level as title because
+      // the title is usually a separator and not
+      // a container. A user would use { type: 'category' }
+      // instead for different behavior
+      if (this.type !== "divider-title") {
+        level += 1;
+      }
+    }
+
+    if (_.isArray(path)) {
+      path = this._constructPath(...path);
+    } else if (!_.isString(path)) {
+      throw new Error("path needs to be an array or a string");
+    }
+
+    if (map[path]) {
+      throw new Error(`an item named "${path}" is already in use`);
+    }
+
+    if (this.final) {
+      throw new Error(`nav item ${this.path} cannot have children`);
+    }
+
+    path = path.trim();
+    if (!path) {
+      throw new Error("path needs to be a string");
+    }
+
+    const id = this._generateId(type, path);
+
+    data = _.omit(data, "path");
+    if (_.isString(match)) {
+      match = RegExp(match);
+    }
+
+    if (match instanceof RegExp) {
+      matches.push({ match, path });
+      data.match = match;
+    }
+
+    const node = this._node.addChild(
+      treeModel.parse({
+        id,
+        show,
+        path,
+        level,
+        final,
+        data
+      })
+    );
+
+    if (_.isNumber(index)) {
+      node.setIndex(index);
+    }
+
+    const navItem = new NavItem({
+      node,
+      nav: this._nav
+    });
+
+    map[path] = navItem;
+
+    if (data.href) {
+      const { href } = data;
+
+      hrefs[href] = path;
+
+      const { href: normalizedHref } = normalizeUrl(href);
+      if (normalizedHref !== href) {
+        hrefs[normalizedHref] = path;
+      }
+    }
+
+    return navItem;
+  }
+
   appendDivider(opts, init) {
     let { title, icon } = (opts = opts || {});
 
@@ -196,97 +287,6 @@ class NavItem {
     }
 
     return id.toLowerCase().replace(/[\s\.]+/g, "-");
-  }
-
-  appendChild(opts, data, final = false) {
-    let { index, show, match } = opts || {};
-    let { path, level, type } = data;
-
-    const {
-      _treeModel: treeModel,
-      _map: map,
-      _hrefs: hrefs,
-      _matches: matches
-    } = this._nav;
-
-    if (!_.isNumber(level)) {
-      level = this.level;
-
-      // divider title can have children, but
-      // they get the same level as title because
-      // the title is usually a separator and not
-      // a container. A user would use { type: 'category' }
-      // instead for different behavior
-      if (this.type !== "divider-title") {
-        level += 1;
-      }
-    }
-
-    if (_.isArray(path)) {
-      path = this._constructPath(...path);
-    } else if (!_.isString(path)) {
-      throw new Error("path needs to be an array or a string");
-    }
-
-    if (map[path]) {
-      throw new Error(`an item named "${path}" is already in use`);
-    }
-
-    if (this.final) {
-      throw new Error(`nav item ${this.path} cannot have children`);
-    }
-
-    path = path.trim();
-    if (!path) {
-      throw new Error("path needs to be a string");
-    }
-
-    const id = this._generateId(type, path);
-
-    data = _.omit(data, "path");
-    if (_.isString(match)) {
-      match = RegExp(match);
-    }
-
-    if (match instanceof RegExp) {
-      matches.push({ match, path });
-      data.match = match;
-    }
-
-    const node = this._node.addChild(
-      treeModel.parse({
-        id,
-        show,
-        path,
-        level,
-        final,
-        data
-      })
-    );
-
-    if (_.isNumber(index)) {
-      node.setIndex(index);
-    }
-
-    const navItem = new NavItem({
-      node,
-      nav: this._nav
-    });
-
-    map[path] = navItem;
-
-    if (data.href) {
-      const { href } = data;
-
-      hrefs[href] = path;
-
-      const { href: normalizedHref } = normalizeUrl(href);
-      if (normalizedHref !== href) {
-        hrefs[normalizedHref] = path;
-      }
-    }
-
-    return navItem;
   }
 }
 

@@ -167,6 +167,12 @@ class NavItem {
       }
     }
 
+    if (final) {
+      // the child we're adding is final, so we return current nav
+      // so the user can add more children to this nav element
+      return this;
+    }
+
     return navItem;
   }
 
@@ -198,10 +204,7 @@ class NavItem {
     }
 
     const type = "divider";
-    this.appendChild(opts, { icon, type, path: [type, index] }, true);
-    // the child we're adding is final, so we return current nav
-    // so the user can add more children to this nav element
-    return this;
+    return this.appendChild(opts, { icon, type, path: [type, index] }, true);
   }
 
   appendLink(opts) {

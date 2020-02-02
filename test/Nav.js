@@ -1,5 +1,4 @@
 const Nav = require("../src");
-const { NavExpress } = Nav;
 const { expect } = require("chai");
 
 describe("Nav", function() {
@@ -35,18 +34,6 @@ describe("Nav", function() {
       const nav = new Nav({ props }, initNav);
 
       testNav(nav);
-    });
-
-    it("using middleware", function() {
-      const middleware = NavExpress.init({ props }, initNav);
-
-      const req = {};
-      const res = {};
-      middleware(req, res, e => {
-        const { nav } = res;
-
-        testNav(nav);
-      });
     });
   });
 

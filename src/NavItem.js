@@ -85,6 +85,10 @@ class NavItem {
       const navItem = this.appendChild(opts, {
         title,
         icon,
+        // since this is a divider, its children
+        // are still considered on the same level
+        // as the divider
+        level: "inherit",
         path: [title, index],
         type: "divider-title"
       });
@@ -159,6 +163,10 @@ class NavItem {
     return this._node.children.length + 1;
   }
 
+  get _isRootNode() {
+    return false;
+  }
+
   _constructPath(...items) {
     const path = [...items];
     if (this.path !== "") {
@@ -186,13 +194,20 @@ class NavItem {
 
   appendChild(opts, data, final = false) {
     let { index, show, match } = opts || {};
-    let { path, level = this.level + 1, type } = data;
+    let { path, level, type } = data;
+
     const {
       _treeModel: treeModel,
       _map: map,
       _hrefs: hrefs,
       _matches: matches
     } = this._nav;
+
+    if (level === "inherit") {
+      level = this._isRootNode ? 0 : this.level;
+    } else if (!_.isNumber(level)) {
+      level = this.level + 1;
+    }
 
     if (_.isArray(path)) {
       path = this._constructPath(...path);

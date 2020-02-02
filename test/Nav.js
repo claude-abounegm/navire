@@ -1,6 +1,6 @@
 const Nav = require("../src");
 const NavExpress = require("../src/express");
-const { assert } = require("chai");
+const { expect } = require("chai");
 
 describe("Nav", function() {
   describe("should work with one link", function() {
@@ -21,14 +21,14 @@ describe("Nav", function() {
     function testNav(nav) {
       const items = [];
       nav.traverse(function(item, traverseChildren) {
-        assert(this === nav);
+        expect(nav).to.be.equal(this);
 
         items.push(item);
 
         traverseChildren();
       });
 
-      assert(items.length === 1);
+      expect(items.length).to.be.equal(1);
     }
 
     it("using ctor", function() {
@@ -62,10 +62,12 @@ describe("Nav", function() {
         match: /\/title/
       });
 
-      nav.appendCategory({ title: "Category 1" }, nav => {
-        nav.appendLink({ title: "Link 1", href: "/link1" });
-        nav.appendDivider("Divider");
-        nav.appendLink({ title: "Link 2", href: "/link2" });
+      nav.appendDivider("Divider1", nav => {
+        nav.appendCategory({ title: "Category 1" }, nav => {
+          nav.appendLink({ title: "Link 1", href: "/link1" });
+          nav.appendDivider("Divider2");
+          nav.appendLink({ title: "Link 2", href: "/link2" });
+        });
       });
     }
 
@@ -83,6 +85,16 @@ describe("Nav", function() {
           return null;
         }
 
+        if (type === "divider-title") {
+          const ret = traverseChildren();
+          if (ret.length === 0) {
+            // nav.traverse() discards null values
+            return null;
+          }
+
+          return ret;
+        }
+
         if (type === "category") {
           return ["before", ...traverseChildren(), "after"];
         }
@@ -90,14 +102,21 @@ describe("Nav", function() {
         return null;
       });
 
-      assert.deepEqual(t, ["/title?search=45", ["before", "/link1", "after"]]);
+      expect(t).deep.equal([
+        "/title?search=45",
+        [["before", "/link1", "after"]]
+      ]);
 
-      assert(nav.find("/") === false);
+      expect(nav.find("/")).to.be.false;
 
       const titleNav = nav.find("/title?x=5");
-      assert(titleNav !== false);
+      expect(titleNav).to.not.be.false;
 
-      assert(titleNav.level === 0);
+      expect(titleNav.level).to.be.equal(0);
+
+      // divider-title test
+      const link2Nav = nav.find("/link2");
+      expect(link2Nav.level).to.be.equal(2);
     });
   });
 });
@@ -122,7 +141,7 @@ describe("Nav", function() {
       }
     ]);
 
-    assert(nav.get("Category 1.Foo.2") !== false);
-    assert(nav.find("/link1") !== false);
+    expect(nav.get("Category 1.Foo.2")).to.not.be.false;
+    expect(nav.find("/link1")).to.not.be.false;
   });
 });

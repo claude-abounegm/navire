@@ -145,6 +145,10 @@ class Nav extends NavItem {
 
     return (children && children.length) || 0;
   }
+
+  get _isRootNode() {
+    return true;
+  }
 }
 
 module.exports = Nav;

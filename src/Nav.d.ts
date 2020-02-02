@@ -1,6 +1,5 @@
 import express from "express";
 import NavItem from "./NavItem";
-import NavExpress from "./express/NavExpress";
 
 declare class Nav<PropsType = {}, DataType = {}> extends NavItem<DataType> {
   constructor(opts?: Nav.CtorOpts<PropsType>, init?: Nav.Init<PropsType>);
@@ -23,7 +22,7 @@ declare class Nav<PropsType = {}, DataType = {}> extends NavItem<DataType> {
   readonly length: number;
   readonly activeNavPath: string | null;
 
-  static NavExpress: typeof NavExpress;
+  // static NavExpress: typeof NavExpress;
 }
 
 export = Nav;
@@ -62,12 +61,4 @@ declare namespace Nav {
     | InitFnReturnArray<PropsType>
     | NavItem.CombinedObjOpts
     | NavItem.CombinedObjOpts[];
-}
-
-declare global {
-  namespace Express {
-    interface Response {
-      nav: Nav;
-    }
-  }
 }

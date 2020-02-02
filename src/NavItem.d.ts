@@ -14,11 +14,11 @@ declare class NavItem<DataType = {}> {
   append(items: NavItem.CombinedObjOpts[]): void;
 
   appendLink(opts: NavItem.LinkOpts): NavItem;
-  appendCategory(opts: NavItem.CategoryOpts, init?: NavItem.InitFn): NavItem;
-  appendDivider(opts: NavItem.DividerOpts, init?: NavItem.InitFn): NavItem;
+  appendCategory(opts: NavItem.CategoryOpts, init?: NavItem.Init): NavItem;
+  appendDivider(opts: NavItem.DividerOpts, init?: NavItem.Init): NavItem;
 
   appendDivider(): NavItem;
-  appendDivider(title: string, init?: NavItem.InitFn): NavItem;
+  appendDivider(title: string, init?: NavItem.Init): NavItem;
 }
 
 export = NavItem;
@@ -26,7 +26,7 @@ export = NavItem;
 declare namespace NavItem {
   interface AppendOpts {
     index?: number;
-    show?: () => boolean;
+    show?: boolean | (() => boolean);
   }
 
   interface TitleOpts extends AppendOpts {

@@ -23,7 +23,7 @@ declare class Nav<PropsType = {}, DataType = {}> extends NavItem<DataType> {
   readonly length: number;
   readonly activeNavPath: string | null;
 
-  static NavExpress: NavExpress;
+  static NavExpress: typeof NavExpress;
 }
 
 export = Nav;

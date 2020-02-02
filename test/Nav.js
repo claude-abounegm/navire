@@ -107,15 +107,15 @@ describe("Nav", function() {
         [["before", "/link1", "after"]]
       ]);
 
-      expect(nav.find("/")).to.be.false;
+      expect(nav.findByHref("/")).to.be.false;
 
-      const titleNav = nav.find("/title?x=5");
+      const titleNav = nav.findByHref("/title?x=5");
       expect(titleNav).to.not.be.false;
 
       expect(titleNav.level).to.be.equal(0);
 
       // divider-title test
-      const link2Nav = nav.find("/link2");
+      const link2Nav = nav.findByHref("/link2");
       expect(link2Nav.level).to.be.equal(1);
     });
   });
@@ -141,7 +141,7 @@ describe("Nav", function() {
       }
     ]);
 
-    expect(nav.get("Category 1.Foo.2")).to.not.be.false;
-    expect(nav.find("/link1")).to.not.be.false;
+    expect(nav.get("Category 1.Foo")).to.not.be.false;
+    expect(nav.findByHref("/link1")).to.not.be.false;
   });
 });

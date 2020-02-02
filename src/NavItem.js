@@ -97,7 +97,7 @@ class NavItem {
       const navItem = this.appendChild(opts, {
         title,
         icon,
-        path: [title, index],
+        path: [title],
         type: "divider-title"
       });
 
@@ -128,7 +128,7 @@ class NavItem {
       opts,
       {
         title,
-        href: href || "#",
+        href,
         icon,
         path: [title],
         type: "link"
@@ -176,10 +176,11 @@ class NavItem {
   }
 
   _constructPath(...items) {
-    const path = [...items];
-    if (this.path !== "") {
-      path.unshift(this.path);
+    const path = [];
+    if (this.path) {
+      path.push(this.path);
     }
+    path.push(...items);
 
     return path.join(".");
   }
@@ -187,17 +188,14 @@ class NavItem {
   _generateId(type, path) {
     let id = `${type}`;
 
-    function normalize(str) {
-      return str.toLowerCase().replace(/[\s\.]+/g, "-");
-    }
-
     if (path) {
       id = `${id}-${path}`;
     } else {
-      id = `${id}-${Date.now()}`;
+      const hash = generateTimeBasedHash();
+      id = `${id}-${hash}`;
     }
 
-    return normalize(id);
+    return id.toLowerCase().replace(/[\s\.]+/g, "-");
   }
 
   appendChild(opts, data, final = false) {
@@ -213,6 +211,12 @@ class NavItem {
 
     if (!_.isNumber(level)) {
       level = this.level;
+
+      // divider title can have children, but
+      // they get the same level as title because
+      // the title is usually a separator and not
+      // a container. A user would use { type: 'category' }
+      // instead for different behavior
       if (this.type !== "divider-title") {
         level += 1;
       }
@@ -284,6 +288,17 @@ class NavItem {
 
     return navItem;
   }
+}
+
+function generateTimeBasedHash(hashLength = 6) {
+  if (!_.isNumber(hashLength)) {
+    throw new Error("hashLength needs to be a number greater than zero");
+  }
+
+  const { length } = _.reverse(String(Date.now()));
+  hashLength = _.clamp(hashLength, 1, length);
+
+  return dateStr.slice(0, hashLength);
 }
 
 module.exports = NavItem;

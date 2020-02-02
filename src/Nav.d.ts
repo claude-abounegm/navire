@@ -14,10 +14,10 @@ declare class Nav<PropsType = {}, DataType = {}> extends NavItem<DataType> {
 
   get(path: string): NavItem | false;
 
-  find(opts: { href: string }): NavItem | false;
-  find(opts: { match: RegExp }): NavItem | false;
-  find(href: string): NavItem | false;
-  find(match: RegExp): NavItem | false;
+  findByHref(opts: { href: string }): NavItem | false;
+  findByHref(opts: { match: RegExp }): NavItem | false;
+  findByHref(href: string): NavItem | false;
+  findByHref(match: RegExp): NavItem | false;
 
   readonly props: PropsType & Nav.Props;
   readonly length: number;

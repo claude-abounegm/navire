@@ -88,7 +88,7 @@ class Nav extends NavItem {
     return this._map[path] || false;
   }
 
-  find(opts) {
+  findByHref(opts) {
     let { href, match } = opts || {};
 
     if (_.isString(opts)) {

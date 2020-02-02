@@ -56,7 +56,12 @@ declare namespace Nav {
   type InitFnReturnArray<PropsType> = (
     nav: Nav<PropsType>
   ) => NavItem.CombinedObjOpts[];
-  type Init<PropsType> = InitFnVoid<PropsType> | InitFnReturnArray<PropsType>;
+
+  type Init<PropsType> =
+    | InitFnVoid<PropsType>
+    | InitFnReturnArray<PropsType>
+    | NavItem.CombinedObjOpts
+    | NavItem.CombinedObjOpts[];
 }
 
 declare global {

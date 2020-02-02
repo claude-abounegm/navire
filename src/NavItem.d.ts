@@ -10,13 +10,11 @@ declare class NavItem<DataType = {}> {
   activate(): void;
 
   append(init: NavItem.Init): void;
-  append(item: NavItem.CombinedObjOpts): void;
-  append(items: NavItem.CombinedObjOpts[]): void;
 
   appendLink(opts: NavItem.LinkOpts): NavItem;
   appendCategory(opts: NavItem.CategoryOpts, init?: NavItem.Init): NavItem;
-  appendDivider(opts: NavItem.DividerOpts, init?: NavItem.Init): NavItem;
 
+  appendDivider(opts: NavItem.DividerOpts, init?: NavItem.Init): NavItem;
   appendDivider(): NavItem;
   appendDivider(title: string, init?: NavItem.Init): NavItem;
 }
@@ -48,24 +46,27 @@ declare namespace NavItem {
     title?: string;
   }
 
-  type InitFnVoid = (nav: NavItem) => void;
-  type InitFnReturnArray = (nav: NavItem) => CombinedObjOpts[];
-  type Init = InitFnVoid | InitFnReturnArray;
+  interface LinkObjOpts extends LinkOpts {
+    type: "link";
+  }
 
-  type LinkObjOpts = { type: "link" } & NavItem.LinkOpts;
-
-  type DividerObjOpts = {
+  interface DividerObjOpts extends DividerOpts {
     type: "divider";
     children?: CombinedObjOpts[];
-  } & NavItem.DividerOpts;
+  }
 
-  type CategoryObjOpts = {
+  interface CategoryObjOpts extends CategoryOpts {
     type: "category";
     children?: CombinedObjOpts[];
-  } & NavItem.CategoryOpts;
+  }
 
-  type CombinedObjOpts =
-    | NavItem.LinkObjOpts
-    | NavItem.DividerOpts
-    | NavItem.CategoryOpts;
+  type CombinedObjOpts = LinkObjOpts | DividerObjOpts | CategoryObjOpts;
+
+  type InitFnVoid = (nav: NavItem) => void;
+  type InitFnReturnArray = (nav: NavItem) => CombinedObjOpts[];
+  type Init =
+    | InitFnVoid
+    | InitFnReturnArray
+    | CombinedObjOpts
+    | CombinedObjOpts[];
 }

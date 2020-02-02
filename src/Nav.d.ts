@@ -1,17 +1,20 @@
 import express from "express";
 import NavItem from "./NavItem";
+import Nav from ".";
 
-declare class Nav<T = object> extends NavItem<T> {
-  constructor(opts?: Nav.CtorOpts<T>, initFn?: Nav.InitFn<T>);
-  constructor(opts?: Nav.CtorOpts<T>, initFn?: Nav.InitFnReturnArray<T>);
+declare class Nav<PropsType = {}, DataType = {}> extends NavItem<DataType> {
+  constructor(opts?: Nav.CtorOpts<PropsType>, initFn?: Nav.InitFn<PropsType>);
+  constructor(
+    opts?: Nav.CtorOpts<PropsType>,
+    initFn?: Nav.InitFnReturnArray<PropsType>
+  );
 
-  traverse(
+  traverse<T>(
     cb: (
       item: Nav.TraverseItem,
-      index: number,
-      traverseChildren: () => void
-    ) => void
-  ): void;
+      traverseChildren: <T>() => Nav.TraverseRet<T>
+    ) => Nav.TraverseRet<T>
+  ): Nav.TraverseRet<T>;
 
   get(path: string): NavItem | false;
 
@@ -20,7 +23,7 @@ declare class Nav<T = object> extends NavItem<T> {
   find(href: string): NavItem | false;
   find(match: RegExp): NavItem | false;
 
-  readonly props: Nav.Props;
+  readonly props: PropsType & Nav.Props;
   readonly length: number;
   readonly activeNavPath: string | null;
 }
@@ -28,6 +31,8 @@ declare class Nav<T = object> extends NavItem<T> {
 export = Nav;
 
 declare namespace Nav {
+  type TraverseRet<T> = void | T | T[];
+
   interface CtorOpts<T> {
     props?: Props<T>;
   }
@@ -36,23 +41,23 @@ declare namespace Nav {
     readonly id: string;
     readonly type: string;
     readonly level: number;
+    readonly index: number;
     readonly active: boolean;
 
     readonly [key: string]: any;
   }
 
-  interface Props<T> extends T {
-    title: string;
-
+  interface Props {
+    title?: string;
     icon?: string;
     href?: string;
     classes?: string;
-
-    [name: string]: string;
   }
 
-  type InitFn<T> = (nav: Nav<T>) => void;
-  type InitFnReturnArray<T> = (nav: Nav<T>) => NavItem.CombinedObjOpts[];
+  type InitFn<PropsType> = (nav: Nav<PropsType>) => void;
+  type InitFnReturnArray<PropsType> = (
+    nav: Nav<PropsType>
+  ) => NavItem.CombinedObjOpts[];
 }
 
 declare global {

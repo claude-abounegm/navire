@@ -1,11 +1,11 @@
 import express from "express";
 
-declare class NavItem<T = object> {
+declare class NavItem<DataType = {}> {
   readonly id: string;
   readonly path: string;
   readonly level: number;
-  readonly data: T;
   readonly final: boolean;
+  readonly data: DataType;
 
   activate(): void;
 

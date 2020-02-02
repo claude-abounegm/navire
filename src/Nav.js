@@ -53,7 +53,8 @@ class Nav extends NavItem {
         return;
       }
 
-      if (type === "divider" && lastType === "divider") {
+      // no duplicate dividers
+      if (type === "divider" && lastType === type) {
         return;
       }
 

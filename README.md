@@ -2,6 +2,10 @@
 
 Simple, elegant navigation
 
-## Why Navire?
+## Examples
 
-First, it's new. Anything that's new is cool, right?
+- [navire-react-demo](https://github.com/claude-abounegm/navire-react-demo)
+
+## Plugins
+
+- [navire-express](https://github.com/claude-abounegm/navire-express)

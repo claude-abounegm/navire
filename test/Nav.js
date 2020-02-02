@@ -116,7 +116,7 @@ describe("Nav", function() {
 
       // divider-title test
       const link2Nav = nav.find("/link2");
-      expect(link2Nav.level).to.be.equal(2);
+      expect(link2Nav.level).to.be.equal(1);
     });
   });
 });

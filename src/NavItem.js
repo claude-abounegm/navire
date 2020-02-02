@@ -88,7 +88,7 @@ class NavItem {
         // since this is a divider, its children
         // are still considered on the same level
         // as the divider
-        level: "inherit",
+        level: this.level,
         path: [title, index],
         type: "divider-title"
       });
@@ -203,9 +203,7 @@ class NavItem {
       _matches: matches
     } = this._nav;
 
-    if (level === "inherit") {
-      level = this._isRootNode ? 0 : this.level;
-    } else if (!_.isNumber(level)) {
+    if (!_.isNumber(level)) {
       level = this.level + 1;
     }
 

@@ -1,5 +1,5 @@
 const Nav = require("../src");
-const NavExpress = require("../src/express");
+const { NavExpress } = Nav;
 const { expect } = require("chai");
 
 describe("Nav", function() {

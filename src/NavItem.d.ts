@@ -9,17 +9,16 @@ declare class NavItem<DataType = {}> {
 
   activate(): void;
 
-  append(initFn: NavItem.InitFn): void;
-  append(initFn: NavItem.InitFnReturnArray): void;
+  append(init: NavItem.Init): void;
   append(item: NavItem.CombinedObjOpts): void;
   append(items: NavItem.CombinedObjOpts[]): void;
 
   appendLink(opts: NavItem.LinkOpts): NavItem;
-  appendCategory(opts: NavItem.CategoryOpts, initFn?: NavItem.InitFn): NavItem;
-  appendDivider(opts: NavItem.DividerOpts, initFn?: NavItem.InitFn): NavItem;
+  appendCategory(opts: NavItem.CategoryOpts, init?: NavItem.InitFn): NavItem;
+  appendDivider(opts: NavItem.DividerOpts, init?: NavItem.InitFn): NavItem;
 
   appendDivider(): NavItem;
-  appendDivider(title: string, initFn?: NavItem.InitFn): NavItem;
+  appendDivider(title: string, init?: NavItem.InitFn): NavItem;
 }
 
 export = NavItem;
@@ -49,8 +48,9 @@ declare namespace NavItem {
     title?: string;
   }
 
-  type InitFn = (nav: NavItem) => void;
+  type InitFnVoid = (nav: NavItem) => void;
   type InitFnReturnArray = (nav: NavItem) => CombinedObjOpts[];
+  type Init = InitFnVoid | InitFnReturnArray;
 
   type LinkObjOpts = { type: "link" } & NavItem.LinkOpts;
 

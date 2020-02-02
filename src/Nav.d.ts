@@ -1,13 +1,9 @@
 import express from "express";
 import NavItem from "./NavItem";
-import Nav from ".";
+import NavExpress from "./express/NavExpress";
 
 declare class Nav<PropsType = {}, DataType = {}> extends NavItem<DataType> {
-  constructor(opts?: Nav.CtorOpts<PropsType>, initFn?: Nav.InitFn<PropsType>);
-  constructor(
-    opts?: Nav.CtorOpts<PropsType>,
-    initFn?: Nav.InitFnReturnArray<PropsType>
-  );
+  constructor(opts?: Nav.CtorOpts<PropsType>, init?: Nav.Init<PropsType>);
 
   traverse<T>(
     cb: (
@@ -26,6 +22,8 @@ declare class Nav<PropsType = {}, DataType = {}> extends NavItem<DataType> {
   readonly props: PropsType & Nav.Props;
   readonly length: number;
   readonly activeNavPath: string | null;
+
+  static NavExpress: NavExpress;
 }
 
 export = Nav;
@@ -34,7 +32,7 @@ declare namespace Nav {
   type TraverseRet<T> = void | T | T[];
 
   interface CtorOpts<T> {
-    props?: Props<T>;
+    props?: Props;
   }
 
   interface TraverseItem {
@@ -54,10 +52,11 @@ declare namespace Nav {
     classes?: string;
   }
 
-  type InitFn<PropsType> = (nav: Nav<PropsType>) => void;
+  type InitFnVoid<PropsType> = (nav: Nav<PropsType>) => void;
   type InitFnReturnArray<PropsType> = (
     nav: Nav<PropsType>
   ) => NavItem.CombinedObjOpts[];
+  type Init<PropsType> = InitFnVoid<PropsType> | InitFnReturnArray<PropsType>;
 }
 
 declare global {

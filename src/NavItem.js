@@ -61,6 +61,14 @@ class NavItem {
       init.forEach(item => this.append(item));
     } else if (_.isPlainObject(init)) {
       const { type, children, ...rest } = init;
+      if (!type) {
+        throw new Error(
+          `the type of the nav item needs to be defined for: ${JSON.stringify(
+            init
+          )}`
+        );
+      }
+
       const fnName = `append${_.startCase(type)}`;
 
       if (!this[fnName]) {

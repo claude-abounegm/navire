@@ -65,7 +65,7 @@ describe("Nav", function() {
       nav.appendDivider("Divider1", nav => {
         nav.appendCategory({ title: "Category 1" }, nav => {
           nav.appendLink({ title: "Link 1", href: "/link1" });
-          nav.appendDivider("Divider2");
+          expect(nav.appendDivider("Divider2").level).to.be.equal(1);
           nav.appendLink({ title: "Link 2", href: "/link2" });
         });
       });

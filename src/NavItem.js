@@ -43,7 +43,11 @@ class NavItem {
   }
 
   get data() {
-    return this._node.model.data;
+    return this._node.model.data || {};
+  }
+
+  get type() {
+    return this.data.type;
   }
 
   append(init) {
@@ -85,10 +89,6 @@ class NavItem {
       const navItem = this.appendChild(opts, {
         title,
         icon,
-        // since this is a divider, its children
-        // are still considered on the same level
-        // as the divider
-        level: this.level,
         path: [title, index],
         type: "divider-title"
       });
@@ -204,7 +204,10 @@ class NavItem {
     } = this._nav;
 
     if (!_.isNumber(level)) {
-      level = this.level + 1;
+      level = this.level;
+      if (this.type !== "divider-title") {
+        level += 1;
+      }
     }
 
     if (_.isArray(path)) {

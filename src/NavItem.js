@@ -80,7 +80,7 @@ class NavItem {
   }
 
   appendChild(opts, data, final = false) {
-    let { index, show, match } = opts || {};
+    let { index, show, match, ...rest } = opts || {};
     let { path, level, type } = data;
 
     const {
@@ -124,7 +124,7 @@ class NavItem {
 
     const id = this._generateId(type, path);
 
-    data = _.omit(data, "path");
+    data = { ...rest, ..._.omit(data, "path") };
     if (_.isString(match)) {
       match = RegExp(match);
     }

@@ -128,6 +128,9 @@ describe("Nav", function() {
       }
     ]);
 
+    expect(nav.findByTitle("Link 3")).to.be.false;
+    expect(nav.findByTitle("Link 2")).to.not.be.false;
+    expect(nav.findByTitle(/Link/, true).length).to.equal(2);
     expect(nav.get("Category 1.Foo")).to.not.be.false;
     expect(nav.findByHref("/link1")).to.not.be.false;
   });

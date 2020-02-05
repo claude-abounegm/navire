@@ -52,12 +52,12 @@ declare namespace NavItem {
 
   interface DividerObjOpts extends DividerOpts {
     type: "divider";
-    children?: CombinedObjOpts[];
+    children?: Init;
   }
 
   interface CategoryObjOpts extends CategoryOpts {
     type: "category";
-    children?: CombinedObjOpts[];
+    children?: Init;
   }
 
   type CombinedObjOpts = LinkObjOpts | DividerObjOpts | CategoryObjOpts;

@@ -11,12 +11,15 @@ declare class Nav<PropsType = {}, DataType = {}> extends NavItem<DataType> {
     ) => Nav.TraverseRet<T>
   ): Nav.TraverseRet<T>;
 
-  get(path: string): NavItem | false;
+  get(path: string): Nav.FindRet;
 
-  findByHref(opts: { href: string }): NavItem | false;
-  findByHref(opts: { match: RegExp }): NavItem | false;
-  findByHref(href: string): NavItem | false;
-  findByHref(match: RegExp): NavItem | false;
+  findByTitle(title: string | RegExp, all: true): Nav.FindRet[];
+  findByTitle(title: string | RegExp, all?: boolean): Nav.FindRet;
+
+  findByHref(opts: { href: string }): Nav.FindRet;
+  findByHref(opts: { match: RegExp }): Nav.FindRet;
+  findByHref(href: string): Nav.FindRet;
+  findByHref(match: RegExp): Nav.FindRet;
 
   readonly props: PropsType & Nav.Props;
   readonly length: number;
@@ -61,4 +64,6 @@ declare namespace Nav {
     | InitFnReturnArray<PropsType>
     | NavItem.CombinedObjOpts
     | NavItem.CombinedObjOpts[];
+
+  type FindRet = NavItem | false;
 }

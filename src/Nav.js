@@ -78,14 +78,52 @@ class Nav extends NavItem {
     function traverseChildren(node) {
       return node.children
         .map((node, index) => _traverse(node, index))
-        .filter(item => item !== null);
+        .filter(item => !_.isUndefined(item) && item !== null);
     }
 
-    return traverseChildren(this._node);
+    const ret = traverseChildren(this._node);
+    if (ret.length) {
+      return ret;
+    }
   }
 
   get(path) {
     return this._map[path] || false;
+  }
+
+  findByTitle(title, all = false) {
+    if (!title) {
+      throw new Error("title needs to be a string or regex");
+    }
+
+    const allItems = [];
+
+    for (const [, navItem] of _.toPairs(this._map)) {
+      const { data } = navItem;
+      let found = false;
+
+      if (title instanceof RegExp) {
+        if (title.test(data.title)) {
+          found = true;
+        }
+      } else if (title === data.title) {
+        found = true;
+      }
+
+      if (found) {
+        if (!all) {
+          return navItem;
+        }
+
+        allItems.push(navItem);
+      }
+    }
+
+    if (allItems.length) {
+      return allItems;
+    }
+
+    return false;
   }
 
   findByHref(opts) {

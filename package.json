@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "nyc mocha test/**/*.js",
-    "build": "webpack"
+    "build": "webpack",
+    "start:dev": "webpack-dev-server"
   },
   "repository": {
     "type": "git",
@@ -25,7 +26,8 @@
     "mocha": "^7.0.1",
     "nyc": "^15.0.0",
     "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.3"
   },
   "dependencies": {
     "lodash": "^4.17.15",

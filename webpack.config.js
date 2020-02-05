@@ -1,31 +1,37 @@
 const path = require("path");
 
 module.exports = {
-  //   entry: "./js/app.js",
-  //   output: {
-  //     path: path.resolve(__dirname, "build"),
-  //     filename: "app.bundle.js"
-  //   },
-  //   module: {
-  //     loaders: [
-  //       {
-  //         test: /\.js$/,
-  //         loader: "babel-loader",
-  //         query: {
-  //           presets: ["es2015"]
-  //         }
-  //       }
-  //     ]
-  //   },
-  entry: "./src/index.js",
-  mode: "production",
+  entry: "./src/browser.js",
+  mode: "development",
   output: {
     path: path.resolve(__dirname, "build"),
     publicPath: "/",
-    filename: "bundle.js"
+    filename: "browser.js"
   },
   stats: {
     colors: true
   },
-  devtool: "source-map"
+  devtool: "source-map",
+  devServer: {
+    contentBase: path.join(__dirname, "build"),
+    compress: true,
+    port: 8080
+  }
 };
+
+//   entry: "./js/app.js",
+//   output: {
+//     path: path.resolve(__dirname, "build"),
+//     filename: "app.bundle.js"
+//   },
+//   module: {
+//     loaders: [
+//       {
+//         test: /\.js$/,
+//         loader: "babel-loader",
+//         query: {
+//           presets: ["es2015"]
+//         }
+//       }
+//     ]
+//   },

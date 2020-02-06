@@ -13,7 +13,26 @@
     />
   </head>
   <body>
-    <nav></nav>
+    <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light rounded">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarsExample09"
+          aria-controls="navbarsExample09"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExample09">
+          <ul class="navbar-nav mr-auto"></ul>
+        </div>
+      </nav>
+    </div>
 
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -38,17 +57,38 @@
         nav.appendLink({ title: "Users", href: "/users" });
       });
 
-      nav.traverse((item, traverseChildren) => {
-        const { type, title, href } = item;
+      const activeNavItem = nav.findByHref(window.location.pathname);
+      if (activeNavItem) {
+        activeNavItem.activate();
+      }
+
+      const navTree = nav.traverse((item, traverseChildren) => {
+        const { type, title, href, active } = item;
 
         if (type === "link") {
-          const a = document.createElement("a");
-          a.text = title;
-          a.href = href;
-
-          document.querySelector("nav").appendChild(a);
+          return createNavLink({ title, href, active });
         }
       });
+
+      $("nav ul").append(navTree);
+
+      function createNavLink({ title, href, active }) {
+        const $listItem = $("<li>");
+        $listItem.addClass("nav-item");
+
+        if (active) {
+          $listItem.addClass("active");
+        }
+
+        const $link = $("<a>");
+        $link.text(title);
+        $link.attr({ href });
+        $link.addClass("nav-link");
+
+        $listItem.html($link);
+
+        return $listItem;
+      }
     </script>
   </body>
 </html>

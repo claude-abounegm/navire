@@ -2,7 +2,7 @@ import express from "express";
 import NavItem from "./NavItem";
 
 declare class Nav<PropsType = {}, DataType = {}> extends NavItem<DataType> {
-  constructor(opts?: Nav.CtorOpts<PropsType>, init?: Nav.Init<PropsType>);
+  constructor(init?: Nav.Init<PropsType>, opts?: Nav.CtorOpts<PropsType>);
 
   traverse<T>(
     cb: (

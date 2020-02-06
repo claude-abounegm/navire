@@ -1,19 +1,20 @@
 const path = require("path");
+const buildPath = path.resolve(__dirname, "dist");
 
 module.exports = {
   entry: "./src/browser.js",
-  mode: "development",
+  mode: "production",
   output: {
-    path: path.resolve(__dirname, "build"),
+    path: buildPath,
     publicPath: "/",
-    filename: "browser.js"
+    filename: "navire-browser.js"
   },
   stats: {
     colors: true
   },
   devtool: "source-map",
   devServer: {
-    contentBase: path.join(__dirname, "build"),
+    contentBase: buildPath,
     compress: true,
     port: 8080
   }

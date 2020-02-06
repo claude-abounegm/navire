@@ -1,6 +1,6 @@
 {
   "name": "navire",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "description": "Simple, elegant navigation",
   "main": "src/index.js",
   "directories": {

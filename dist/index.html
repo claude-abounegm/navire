@@ -49,10 +49,10 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
-    <script src="./browser.js"></script>
+    <script src="./navire-browser.js"></script>
 
     <script>
-      const nav = new Nav({}, nav => {
+      const nav = new Nav(nav => {
         nav.appendLink({ title: "Dashboard", href: "/" });
         nav.appendLink({ title: "Users", href: "/users" });
       });
@@ -73,21 +73,29 @@
       $("nav ul").append(navTree);
 
       function createNavLink({ title, href, active }) {
+        const $link = createAnchor({ title, href });
+        $link.addClass("nav-link");
+
+        // <li class="nav-item"></li>
         const $listItem = $("<li>");
         $listItem.addClass("nav-item");
-
         if (active) {
           $listItem.addClass("active");
         }
 
-        const $link = $("<a>");
-        $link.text(title);
-        $link.attr({ href });
-        $link.addClass("nav-link");
-
+        // add link to the <li> content
         $listItem.html($link);
 
         return $listItem;
+      }
+
+      function createAnchor({ title, ...rest }) {
+        // <a href="{href}" class="nav-link">{title}</a>
+        const $link = $("<a>");
+        $link.text(title);
+        $link.attr({ ...rest });
+
+        return $link;
       }
     </script>
   </body>

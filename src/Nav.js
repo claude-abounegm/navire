@@ -6,7 +6,7 @@ const NavItem = require("./NavItem");
 const { normalizeUrl } = require("./utils/url");
 
 class Nav extends NavItem {
-  constructor(opts, init) {
+  constructor(init, opts) {
     const { props } = opts || {};
 
     const treeModel = new TreeModel();

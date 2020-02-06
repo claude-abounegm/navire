@@ -3,8 +3,6 @@ const { expect } = require("chai");
 
 describe("Nav", function() {
   describe("should work with one link", function() {
-    const props = { title: "App Title" };
-
     /**
      *
      * @param {Nav} nav
@@ -31,7 +29,7 @@ describe("Nav", function() {
     }
 
     it("using ctor", function() {
-      const nav = new Nav({ props }, initNav);
+      const nav = new Nav(initNav);
 
       testNav(nav);
     });
@@ -59,7 +57,7 @@ describe("Nav", function() {
     }
 
     it("using ctor", function() {
-      const nav = new Nav({ props: { title: "App Title" } }, initNav);
+      const nav = new Nav(initNav, { props: { title: "App Title" } });
 
       const t = nav.traverse((item, traverseChildren) => {
         const { type, href, index } = item;
@@ -110,23 +108,26 @@ describe("Nav", function() {
 
 describe("Nav", function() {
   it("ctor with array", function() {
-    const nav = new Nav({ props: { title: "Foo" } }, nav => [
-      {
-        type: "link",
-        title: "Title",
-        href: "/title?search=45",
-        match: /\/title/
-      },
-      {
-        type: "category",
-        title: "Category 1",
-        children: () => [
-          { type: "link", title: "Link 1", href: "/link1" },
-          { type: "divider", title: nav.props.title },
-          { type: "link", title: "Link 2", href: "/link2" }
-        ]
-      }
-    ]);
+    const nav = new Nav(
+      nav => [
+        {
+          type: "link",
+          title: "Title",
+          href: "/title?search=45",
+          match: /\/title/
+        },
+        {
+          type: "category",
+          title: "Category 1",
+          children: () => [
+            { type: "link", title: "Link 1", href: "/link1" },
+            { type: "divider", title: nav.props.title },
+            { type: "link", title: "Link 2", href: "/link2" }
+          ]
+        }
+      ],
+      { props: { title: "Foo" } }
+    );
 
     expect(nav.findByTitle("Link 3")).to.be.false;
     expect(nav.findByTitle("Link 2")).to.not.be.false;

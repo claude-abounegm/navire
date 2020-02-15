@@ -1,5 +1,5 @@
 const path = require("path");
-const buildPath = path.resolve(__dirname, "dist");
+const buildPath = path.resolve(__dirname, "browser", "dist");
 
 module.exports = {
   entry: "./src/browser.js",
@@ -14,10 +14,11 @@ module.exports = {
   },
   devtool: "source-map",
   devServer: {
-    contentBase: buildPath,
+    contentBase: [path.resolve(__dirname, "browser", "example"), buildPath],
     compress: true,
     port: 8080
-  }
+  },
+  hot: true
 };
 
 //   entry: "./js/app.js",

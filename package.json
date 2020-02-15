@@ -8,8 +8,8 @@
   },
   "scripts": {
     "test": "nyc mocha test/**/*.js",
-    "build": "webpack",
-    "start:dev": "webpack-dev-server"
+    "browser:build": "webpack",
+    "browser:dev": "webpack-dev-server"
   },
   "repository": {
     "type": "git",

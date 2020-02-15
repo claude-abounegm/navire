@@ -49,6 +49,8 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
+
+    <!-- Import navire in the browser -->
     <script src="./navire-browser.js"></script>
 
     <script>
@@ -57,6 +59,8 @@
         nav.appendLink({ title: "Users", href: "/users" });
       });
 
+      // find a nav item based on the browser's current location
+      // and activate it if it was found.
       const activeNavItem = nav.findByHref(window.location.pathname);
       if (activeNavItem) {
         activeNavItem.activate();

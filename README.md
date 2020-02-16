@@ -50,8 +50,8 @@ const navire = new Nav(
     // The types currently supported are:
     //   ["category", "link", "divider"]
     //
-    //  More details on each type and how they be use
-    //  can be found in the documentation.
+    //  More details on each type and how they can be used
+    //  can be found later in the documentation.
     {
       type: "link",
       title: "Title",
@@ -79,12 +79,17 @@ const navire = new Nav(
       // You can also pass an array here, or pass a function that returns an array
       // You choose what style you like best, and what best fits your needs.
       children: nav => {
+        // anything appended here will be appended to "Category 1" as a child.
+
         // /link1 is the first child
         nav.appendLink({ title: "Link 1", href: "/link1" });
         // this is a "divider" with a title
-        nav.appendDivider({ title: navire.props.title });
-        // /link2 has index 2
-        nav.appendLink({ title: "Link 2", href: "/link2" });
+        nav.appendDivider({ title: navire.props.title }, nav => {
+          // now appending children to the divider
+
+          // /link2 has index 2
+          nav.appendLink({ title: "Link 2", href: "/link2" });
+        });
       }
     }
   ],

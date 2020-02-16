@@ -94,9 +94,9 @@ class NavItem {
     }
   }
 
-  appendChild(opts, data, final = false) {
-    let { index, show, match, ...rest } = opts || {};
-    let { path, level, type } = data;
+  appendChild(opts, final = false) {
+    let { index, show, path, level, ...data } = opts || {};
+    let { match, type } = data;
 
     const {
       _treeModel: treeModel,
@@ -139,14 +139,13 @@ class NavItem {
 
     const id = generateId(type, path);
 
-    data = { ...rest, ..._.omit(data, "path") };
     if (_.isString(match)) {
       match = RegExp(match);
+      data.match = match;
     }
 
     if (match instanceof RegExp) {
       matches.push({ match, path });
-      data.match = match;
     }
 
     const node = this._node.addChild(
@@ -192,7 +191,7 @@ class NavItem {
   }
 
   appendDivider(opts, init) {
-    let { title, icon } = (opts = opts || {});
+    let { title } = (opts = opts || {});
 
     if (_.isString(opts)) {
       title = opts;
@@ -206,9 +205,9 @@ class NavItem {
     const index = this.length + 1;
 
     if (title) {
-      const navItem = this.appendChild(opts, {
+      const navItem = this.appendChild({
+        ...opts,
         title,
-        icon,
         path: [title],
         type: "divider-title"
       });
@@ -219,7 +218,7 @@ class NavItem {
     }
 
     const type = "divider";
-    return this.appendChild(opts, { icon, type, path: [type, index] }, true);
+    return this.appendChild({ ...opts, type, path: [type, index] }, true);
   }
 
   appendLink(opts) {
@@ -227,18 +226,16 @@ class NavItem {
       throw new Error("opts needs to be an object");
     }
 
-    const { title, href, icon } = opts;
+    const { title } = opts;
 
     if (!_.isString(title)) {
       throw new Error("title needs to be a string");
     }
 
     this.appendChild(
-      opts,
       {
+        ...opts,
         title,
-        href,
-        icon,
         path: [title],
         type: "link"
       },
@@ -253,16 +250,16 @@ class NavItem {
       throw new Error("opts needs to be an object");
     }
 
-    let { title, icon } = opts || {};
+    let { title } = opts || {};
 
     if (_.isString(opts)) {
       title = opts;
       opts = {};
     }
 
-    const navItem = this.appendChild(opts, {
+    const navItem = this.appendChild({
+      ...opts,
       title,
-      icon,
       path: [title],
       type: "category"
     });

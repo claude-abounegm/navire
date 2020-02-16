@@ -54,12 +54,12 @@ const shouldShowCategory = false;
 
 // Initialize navire
 const navire = new Navire(
-  // the first parameter initializes navire, you can (the navigation tree):
-  //   - A function, which gives you the Navire instance as its first parameter
-  //   - An array directly
+  // The first parameter initializes navire, you can pass:
+  //  - A function, which gives you the Navire instance as its first parameter
+  //  - An array directly
   navire => [
     // Every nav item needs to have a type.
-    // The types currently supported are:
+    // The types navire currently support are:
     //   ["category", "link", "divider"]
     //   - "category" is used as a container for other nav items.
     //   - "link" is used to represent a navigation link.
@@ -70,16 +70,16 @@ const navire = new Navire(
     {
       type: "link",
       title: "Title",
-      // Since the href of this nav is /title?search=45,
-      // this item can only be found by: navire.findByHref('/title?search=45')
+      // Since the href of this nav is /title?search=45, currently, this
+      // item can only be found by: navire.findByHref("/title?search=45").
       href: "/title?search=45",
-      // The `match` field helps navire identify this nav
-      // item by href, so navire.findByHref('/title') now matches this element.
-      // navire.findByHref('/title?foo=world'), also works, etc...
+      // The `match` field helps navire identify this nav item by href,
+      // so navire.findByHref("/title") now matches this element.
+      // navire.findByHref("/title?foo=world"), also works, etc...
       match: /\/title/
     },
     {
-      // type "category" is a container for other nav elements, it can have
+      // Type "category" is a container for other nav elements, it can have
       // a title and children. (index 1, level 0)
       type: "category",
       title: "Category 1",
@@ -95,9 +95,12 @@ const navire = new Navire(
       // You can also pass an array here, or pass a function that returns an array.
       // You choose what style you like best, and what best fits your needs.
       children: nav => {
-        // anything appended here will be appended to "Category 1" as a child.
-        // if the `show` field above evaluates to false, none of these items
+        // Anything appended here will be appended to "Category 1" as a child.
+        // If the `show` field above evaluates to false, none of these items
         // would be displayed.
+
+        // Note how in the next statement we do not pass { "type": "$value" },
+        // since we we are explicitly specifying the types by calling the methods.
 
         // /link1 is the first child (index 0, level 1)
         nav.appendLink({ title: "Link 1", href: "/link1" });

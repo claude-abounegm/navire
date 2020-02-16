@@ -24,7 +24,6 @@ declare class Navire<PropsType = {}, DataType = {}> extends NavItem<DataType> {
   serialize(): string;
 
   readonly props: PropsType & Navire.Props;
-  readonly length: number;
   readonly activeNavPath: string | null;
 
   static deserialize(data: string): Navire;

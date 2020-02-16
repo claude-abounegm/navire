@@ -175,16 +175,6 @@ class Navire extends NavItem {
     return this._activeNavItemPath || null;
   }
 
-  get length() {
-    if (!this.node) {
-      return 0;
-    }
-
-    const { children } = this.node;
-
-    return (children && children.length) || 0;
-  }
-
   build(transform) {
     return this.traverse((item, traverseChildren) => {
       const children = traverseChildren();

@@ -2,6 +2,7 @@
 
 const _ = require("lodash");
 const { normalizeUrl } = require("./utils/url");
+const { generateId } = require("./utils/hash");
 
 class NavItem {
   constructor(opts) {
@@ -48,6 +49,10 @@ class NavItem {
 
   get type() {
     return this.data.type;
+  }
+
+  get length() {
+    return this._node.children.length;
   }
 
   append(init) {
@@ -126,7 +131,7 @@ class NavItem {
       throw new Error("path needs to be a string");
     }
 
-    const id = this._generateId(type, path);
+    const id = generateId(type, path);
 
     data = { ...rest, ..._.omit(data, "path") };
     if (_.isString(match)) {
@@ -192,7 +197,7 @@ class NavItem {
       throw new Error("opts needs to be an object");
     }
 
-    const index = this._node.children.length + 1;
+    const index = this.length + 1;
 
     if (title) {
       const navItem = this.appendChild(opts, {
@@ -278,30 +283,6 @@ class NavItem {
 
     return path.join(".");
   }
-
-  _generateId(type, path) {
-    let id = `${type}`;
-
-    if (path) {
-      id = `${id}-${path}`;
-    } else {
-      const hash = generateTimeBasedHash();
-      id = `${id}-${hash}`;
-    }
-
-    return id.toLowerCase().replace(/[\s\.]+/g, "-");
-  }
-}
-
-function generateTimeBasedHash(hashLength = 6) {
-  if (!_.isNumber(hashLength)) {
-    throw new Error("hashLength needs to be a number greater than zero");
-  }
-
-  const { length } = _.reverse(String(Date.now()));
-  hashLength = _.clamp(hashLength, 1, length);
-
-  return dateStr.slice(0, hashLength);
 }
 
 module.exports = NavItem;

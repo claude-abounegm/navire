@@ -134,10 +134,13 @@ describe("Nav", function() {
 
     expect(navire.build()).to.deep.equal(deserialized.build());
 
+    expect(navire.findByTitle("Category 1").length).to.equal(3);
     expect(navire.findByTitle("Link 3")).to.be.false;
     expect(navire.findByTitle("Link 2")).to.not.be.false;
     expect(navire.findByTitle(/Link/, true).length).to.equal(2);
-    expect(navire.get("Category 1.Foo")).to.not.be.false;
+
     expect(navire.findByHref("/link1")).to.not.be.false;
+
+    expect(navire.get("Category 1.Foo")).to.not.be.false;
   });
 });

@@ -6,6 +6,7 @@ declare class NavItem<DataType = {}> {
   readonly level: number;
   readonly final: boolean;
   readonly data: DataType;
+  readonly length: number;
 
   activate(): void;
 

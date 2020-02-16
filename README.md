@@ -29,6 +29,10 @@ Download `/browser/dist/navire-browser.js` and import in the browser like:
 
 ### Instructions
 
+`Navire` is the main class that is used for managing the full navigation tree. When initialized, we use `navire` to represent it. It contains methods such as `findByHref()`, `findByTitle()`, `get()`, and `traverse()`. These are essential to using navire effectively.
+
+`NavItem` is the class that is used for navigation items such as links, categories and dividers. When initialized, we use `nav` to represent it. It contains methods such as `appendCategory()`, `appendDivider()`, `appendLink()`, and more.
+
 `navire` uses a two-step approach to build navigation.
 
 1. Build the full navigation tree.
@@ -37,7 +41,7 @@ Download `/browser/dist/navire-browser.js` and import in the browser like:
 Let's take a look at **Step 1**:
 
 ```javascript
-// switch whether to display the category nav item
+// whether to display the category nav item
 const shouldShowCategory = false;
 
 // Initialize navire

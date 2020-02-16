@@ -42,9 +42,9 @@ const shouldShowCategory = false;
 
 // Initialize navire
 const navire = new Navire(
-  // the first parameter initializes the navigation tree:
+  // the first parameter initializes navire (the navigation tree):
   // - you can pass a function, which gives you
-  //     a Nav instance as its first parameter
+  //     the Navire instance as its first parameter
   // - you can also pass the array directly
   navire => [
     // this is the first link in the navigation,
@@ -107,6 +107,14 @@ const navire = new Navire(
   // Look at the divider above, the title of the divider will be "Foo".
   { props: { title: "Foo" } }
 );
+```
+
+Now that we initialized navire, we can proceed to **Step 2**, where we traverse the navigation tree and generate the front-end:
+
+```javascript
+navire.traverse((item, traverseChildren) => {
+  // traverse
+});
 ```
 
 ## Usage with React.js

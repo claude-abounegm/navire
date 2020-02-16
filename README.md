@@ -100,7 +100,7 @@ const navire = new Navire(
         // would be displayed.
 
         // Note how in the next statement we do not pass { "type": "$value" },
-        // since we we are explicitly specifying the types by calling the methods.
+        // since we are explicitly specifying the types by calling the methods.
 
         // /link1 is the first child (index 0, level 1)
         nav.appendLink({ title: "Link 1", href: "/link1" });
@@ -129,9 +129,8 @@ Now that we initialized navire, we can do all sorts of things, ex:
 // this will find and return "Link 1" nav item
 const navLink1 = navire.findByHref("/link1");
 
-// this will set "Link 1" as the active nav item
-// since "Link 1" is a child of "Category 1",
-// "Category 1" will also be active.
+// This will set "Link 1" as the active nav item. Since "Link 1"
+// is a child of "Category 1", "Category 1" will also be active.
 navLink1.activate();
 
 navLink1.active; // true

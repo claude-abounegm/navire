@@ -4,7 +4,7 @@
   const searchParams = new URLSearchParams(location.search);
   const isAdmin = !!searchParams.get("admin");
 
-  const navire = new Nav(navire => {
+  const navire = new Navire(navire => {
     navire.appendLink({ title: "Dashboard", href: "/" });
     navire.appendLink({ title: "Users", href: "/users" });
     navire.appendLink({

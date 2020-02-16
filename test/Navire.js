@@ -1,11 +1,11 @@
-const Nav = require("../src");
+const Navire = require("../src");
 const { expect } = require("chai");
 
 describe("Nav", function() {
   describe("should work with one link", function() {
     /**
      *
-     * @param {Nav} navire
+     * @param {Navire} navire
      */
     function initNav(navire) {
       navire.appendLink({ title: "Link1", href: "/link1" });
@@ -13,7 +13,7 @@ describe("Nav", function() {
 
     /**
      *
-     * @param {Nav} navire
+     * @param {Navire} navire
      */
     function testNav(navire) {
       const items = [];
@@ -29,7 +29,7 @@ describe("Nav", function() {
     }
 
     it("using ctor", function() {
-      const nav = new Nav(initNav);
+      const nav = new Navire(initNav);
 
       testNav(nav);
     });
@@ -38,7 +38,7 @@ describe("Nav", function() {
   describe("should work with children", function() {
     /**
      *
-     * @param {Nav} nav
+     * @param {Navire} nav
      */
     function initNav(nav) {
       nav.appendLink({
@@ -57,7 +57,7 @@ describe("Nav", function() {
     }
 
     it("using ctor", function() {
-      const navire = new Nav(initNav, { props: { title: "App Title" } });
+      const navire = new Navire(initNav, { props: { title: "App Title" } });
 
       const t = navire.traverse((item, traverseChildren) => {
         const { type, href, index } = item;
@@ -108,7 +108,7 @@ describe("Nav", function() {
 
 describe("Nav", function() {
   it("ctor with array", function() {
-    const navire = new Nav(
+    const navire = new Navire(
       navire => [
         {
           type: "link",
@@ -130,7 +130,7 @@ describe("Nav", function() {
     );
 
     const serialized = navire.serialize();
-    const deserialized = Nav.deserialize(serialized);
+    const deserialized = Navire.deserialize(serialized);
 
     expect(navire.build()).to.deep.equal(deserialized.build());
 

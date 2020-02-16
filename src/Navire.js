@@ -5,7 +5,7 @@ const TreeModel = require("tree-model");
 const NavItem = require("./NavItem");
 const { normalizeUrl } = require("./utils/url");
 
-class Nav extends NavItem {
+class Navire extends NavItem {
   constructor(init, opts) {
     const { props } = opts || {};
 
@@ -187,31 +187,25 @@ class Nav extends NavItem {
 
   build(transform) {
     return this.traverse((item, traverseChildren) => {
-      let { type } = item;
+      const children = traverseChildren();
 
-      const ret = {
-        ...item,
-        type,
-        children: traverseChildren()
-      };
-
-      for (let [key, value] of _.toPairs(ret)) {
+      for (let [key, value] of _.toPairs(item)) {
         if (_.isFunction(transform)) {
           value = transform(key, value);
         }
 
         if (_.isUndefined(value)) {
-          delete ret[key];
-        } else if (ret[key] !== value) {
-          ret[key] = value;
+          delete item[key];
+        } else if (item[key] !== value) {
+          item[key] = value;
         }
       }
 
-      if (!ret.children.length) {
-        delete ret.children;
+      if (children.length) {
+        item.children = children;
       }
 
-      return ret;
+      return item;
     });
   }
 
@@ -232,22 +226,36 @@ class Nav extends NavItem {
   }
 
   static deserialize(data) {
+    if (!_.isString(data)) {
+      throw new Error("data needs to be a navire serialized string");
+    }
+
     data = data.split("navire:")[1];
+
+    if (!data) {
+      throw new Error("data is not a navire serialized string");
+    }
 
     data = Buffer.from(data, "base64").toString("utf8");
 
-    const { init, props } = JSON.parse(data, (key, value) => {
-      if (_.isPlainObject(value)) {
-        if (value.$type === "regex") {
-          const [, pattern, flags] = /^\/(.+)\/([a-z]*)$/.exec(value.value);
-          return RegExp(pattern, flags || "");
+    try {
+      data = JSON.parse(data, (key, value) => {
+        if (_.isPlainObject(value)) {
+          const { $type, value: match } = value;
+
+          if ($type === "regex") {
+            const [, pattern, flags] = /^\/(.+)\/([a-z]*)$/.exec(match);
+            return RegExp(pattern, flags || "");
+          }
         }
-      }
 
-      return value;
-    });
+        return value;
+      });
+    } catch (e) {
+      throw new Error("invalid navire serialized data");
+    }
 
-    return new this(init, props);
+    return new this(data.init, data.props);
   }
 
   get _isRootNode() {
@@ -255,4 +263,4 @@ class Nav extends NavItem {
   }
 }
 
-module.exports = Nav;
+module.exports = Navire;

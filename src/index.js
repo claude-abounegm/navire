@@ -1,5 +1,5 @@
 "use strict";
 
-const Nav = require("./Nav");
+const Navire = require("./Navire");
 
-module.exports = Nav;
+module.exports = Navire;

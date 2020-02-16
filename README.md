@@ -12,8 +12,10 @@ Navire ships with typings out of the box and can be used both server and client-
 npm i navire
 ```
 
+and then you can require it:
+
 ```javascript
-const Nav = require("navire");
+const Navire = require("navire");
 ```
 
 ### Browser
@@ -22,7 +24,7 @@ Download `/browser/dist/navire-browser.js` and import in the browser like:
 
 ```html
 <script src="navire-browser.js"></script>
-<!-- `Nav` is now a global variable. -->
+<!-- `Navire` is now a global variable. -->
 ```
 
 ### Instructions
@@ -39,7 +41,7 @@ Let's take a look at **Step 1**:
 const shouldShowCategory = false;
 
 // Initialize navire
-const navire = new Nav(
+const navire = new Navire(
   // the first parameter initializes the navigation tree:
   // - you can pass a function, which gives you
   //     a Nav instance as its first parameter
@@ -78,8 +80,8 @@ const navire = new Nav(
       // just like we passed a function to init navire, we can pass a function
       // here and append children in a functional manner. `navire` passes a
       // NavItem instance as it's first parameter, which points to the current
-      // nav item. in this case, it's "Category 1".
-      // You can also pass an array here, or pass a function that returns an array
+      // nav item. In this case, it's "Category 1".
+      // You can also pass an array here, or pass a function that returns an array.
       // You choose what style you like best, and what best fits your needs.
       children: nav => {
         // anything appended here will be appended to "Category 1" as a child.
@@ -90,14 +92,10 @@ const navire = new Nav(
         nav.appendLink({ title: "Link 1", href: "/link1" });
 
         // this is a "divider" with a title (index 1, level 1)
-        nav.appendDivider({ title: navire.props.title }, nav => {
-          // now appending children to the divider
+        nav.appendDivider({ title: navire.props.title });
 
-          // /link2 (index 0, level 1)
-          // dividers are a special case and they inherit their parent's
-          // level since a divider is not really a container.
-          nav.appendLink({ title: "Link 2", href: "/link2" });
-        });
+        // /link2 (index 2, level 1)
+        nav.appendLink({ title: "Link 2", href: "/link2" });
       }
     }
   ],

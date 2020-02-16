@@ -1,7 +1,7 @@
 "use strict";
 
-const Nav = require("./Nav");
+const Navire = require("./Navire");
 
 if (typeof window !== "undefined") {
-  window.Nav = Nav;
+  window.Navire = Navire;
 }

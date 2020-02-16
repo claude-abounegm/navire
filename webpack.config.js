@@ -16,9 +16,19 @@ module.exports = {
   devServer: {
     contentBase: [path.resolve(__dirname, "browser", "example"), buildPath],
     compress: true,
-    port: 8080
-  },
-  hot: true
+    port: 8080,
+    hot: true,
+    proxy: {
+      "/**": {
+        //catch all requests
+        target: "/index.html", //default target
+        secure: false,
+        bypass: function(req, res, opt) {
+          return "/index.html";
+        }
+      }
+    }
+  }
 };
 
 //   entry: "./js/app.js",

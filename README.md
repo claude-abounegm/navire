@@ -2,18 +2,15 @@
 
 Simple, elegant navigation
 
-Navire ships with typings out of the box.
-Navire can be used both server and client-side.
-
-## Installation
-
-```bash
-npm i navire
-```
+Navire ships with typings out of the box and can be used both server and client-side.
 
 ## Usage
 
 ### npm
+
+```bash
+npm i navire
+```
 
 ```javascript
 const Nav = require("navire");
@@ -21,8 +18,10 @@ const Nav = require("navire");
 
 ### Browser
 
+Download `/browser/dist/navire-browser.js` and import in the browser like:
+
 ```html
-<script src="/dist/navire-browser.js"></script>
+<script src="navire-browser.js"></script>
 <!-- `Nav` is now a global variable. -->
 ```
 
@@ -34,6 +33,8 @@ const Nav = require("navire");
 2. Traverse the tree and build the front-end.
 
 Let's take a look at **Step 1**:
+
+`navire` accepts functional-like ini
 
 ```javascript
 // switch whether to display the category nav item

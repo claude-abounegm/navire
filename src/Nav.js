@@ -185,6 +185,71 @@ class Nav extends NavItem {
     return (children && children.length) || 0;
   }
 
+  build(transform) {
+    return this.traverse((item, traverseChildren) => {
+      let { type } = item;
+
+      if (type === "divider-title") {
+        type = "divider";
+      }
+
+      const ret = {
+        ...item,
+        type,
+        children: traverseChildren()
+      };
+
+      for (let [key, value] of _.toPairs(ret)) {
+        if (_.isFunction(transform)) {
+          value = transform(key, value);
+          ret[key] = value;
+        }
+
+        if (_.isUndefined(value)) {
+          delete ret[key];
+        }
+      }
+
+      if (!ret.children.length) {
+        delete ret.children;
+      }
+
+      return ret;
+    });
+  }
+
+  serialize() {
+    const obj = {
+      init: this.build((key, value) => {
+        if (value instanceof RegExp) {
+          return { $type: "regex", value: value.toString() };
+        }
+        return value;
+      }),
+      props: this.props
+    };
+
+    return Buffer.from(JSON.stringify(obj), "utf8").toString("base64");
+  }
+
+  static deserialize(data) {
+    const { init, props } = JSON.parse(
+      Buffer.from(data, "base64").toString("utf8"),
+      (key, value) => {
+        if (_.isPlainObject(value)) {
+          if (value.$type === "regex") {
+            const [, pattern, flags] = /^\/(.+)\/([a-z]*)$/.exec(value.value);
+            return RegExp(pattern, flags || "");
+          }
+        }
+
+        return value;
+      }
+    );
+
+    return new this(init, props);
+  }
+
   get _isRootNode() {
     return true;
   }

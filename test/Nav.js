@@ -129,6 +129,11 @@ describe("Nav", function() {
       { props: { title: "Foo" } }
     );
 
+    const deserialized = Nav.deserialize(nav.serialize());
+
+    expect(nav.build()).to.deep.equal(deserialized.build());
+    // console.dir(deserialized.build(), { depth: 100 });
+
     expect(nav.findByTitle("Link 3")).to.be.false;
     expect(nav.findByTitle("Link 2")).to.not.be.false;
     expect(nav.findByTitle(/Link/, true).length).to.equal(2);

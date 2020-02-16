@@ -33,19 +33,26 @@ const Nav = require("navire");
 1. Build the full navigation tree.
 2. Traverse the tree and build the front-end.
 
+Let's take a look at **Step 1**:
+
 ```javascript
-const shouldShowElement = false;
+// switch whether to display the category nav item
+const shouldShowCategory = false;
 
 // Initialize navire
 const nav = new Nav(
-  // you can pass a function, which gives you a Nav instance
-  // you can also pass the array directly
+  // the first parameter initializes the navigation tree:
+  // - you can pass a function, which gives you
+  //     a Nav instance as its first parameter
+  // - you can also pass the array directly
   nav => [
     // this is the first link in the navigation,
     // you need to define a type.
     // The types currently supported are:
     //   ["category", "link", "divider"]
-    // More details on each type can be found in the documentation.
+    //
+    //  More details on each type and how they be use
+    //  can be found in the documentation.
     {
       type: "link",
       title: "Title",
@@ -65,7 +72,7 @@ const nav = new Nav(
       // show is a special field that can accept a function or boolean.
       // if the field evaluates to true, the nav item is displayed,
       // otherwise, it is not shown and neither are its children.
-      show: shouldShowElement, // can also be () => shouldShowElement
+      show: shouldShowCategory, // can also be () => shouldShowCategory
       children: () => [
         // /link1 is the first child
         { type: "link", title: "Link 1", href: "/link1" },

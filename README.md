@@ -34,19 +34,17 @@ Download `/browser/dist/navire-browser.js` and import in the browser like:
 
 Let's take a look at **Step 1**:
 
-`navire` accepts functional-like ini
-
 ```javascript
 // switch whether to display the category nav item
 const shouldShowCategory = false;
 
 // Initialize navire
-const nav = new Nav(
+const navire = new Nav(
   // the first parameter initializes the navigation tree:
   // - you can pass a function, which gives you
   //     a Nav instance as its first parameter
   // - you can also pass the array directly
-  nav => [
+  navire => [
     // this is the first link in the navigation,
     // you need to define a type.
     // The types currently supported are:
@@ -74,14 +72,20 @@ const nav = new Nav(
       // if the field evaluates to true, the nav item is displayed,
       // otherwise, it is not shown and neither are its children.
       show: shouldShowCategory, // can also be () => shouldShowCategory
-      children: () => [
+      // just like we passed a function to init navire, we can pass a function
+      // here and append children in a functional manner. `navire` passes a
+      // NavItem instance as it's first parameter, which points to the current
+      // nav item. in this case, it's "Category 1".
+      // You can also pass an array here, or pass a function that returns an array
+      // You choose what style you like best, and what best fits your needs.
+      children: nav => {
         // /link1 is the first child
-        { type: "link", title: "Link 1", href: "/link1" },
+        nav.appendLink({ title: "Link 1", href: "/link1" });
         // this is a "divider" with a title
-        { type: "divider", title: nav.props.title },
+        nav.appendDivider({ title: navire.props.title });
         // /link2 has index 2
-        { type: "link", title: "Link 2", href: "/link2" }
-      ]
+        nav.appendLink({ title: "Link 2", href: "/link2" });
+      }
     }
   ],
   // these are props that might be needed while rendering the navigation

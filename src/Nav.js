@@ -189,10 +189,6 @@ class Nav extends NavItem {
     return this.traverse((item, traverseChildren) => {
       let { type } = item;
 
-      if (type === "divider-title") {
-        type = "divider";
-      }
-
       const ret = {
         ...item,
         type,
@@ -202,11 +198,12 @@ class Nav extends NavItem {
       for (let [key, value] of _.toPairs(ret)) {
         if (_.isFunction(transform)) {
           value = transform(key, value);
-          ret[key] = value;
         }
 
         if (_.isUndefined(value)) {
           delete ret[key];
+        } else if (ret[key] !== value) {
+          ret[key] = value;
         }
       }
 
@@ -219,7 +216,7 @@ class Nav extends NavItem {
   }
 
   serialize() {
-    const obj = {
+    let ret = {
       init: this.build((key, value) => {
         if (value instanceof RegExp) {
           return { $type: "regex", value: value.toString() };
@@ -229,23 +226,26 @@ class Nav extends NavItem {
       props: this.props
     };
 
-    return Buffer.from(JSON.stringify(obj), "utf8").toString("base64");
+    ret = Buffer.from(JSON.stringify(ret), "utf8").toString("base64");
+
+    return `navire:${ret}`;
   }
 
   static deserialize(data) {
-    const { init, props } = JSON.parse(
-      Buffer.from(data, "base64").toString("utf8"),
-      (key, value) => {
-        if (_.isPlainObject(value)) {
-          if (value.$type === "regex") {
-            const [, pattern, flags] = /^\/(.+)\/([a-z]*)$/.exec(value.value);
-            return RegExp(pattern, flags || "");
-          }
-        }
+    data = data.split("navire:")[1];
 
-        return value;
+    data = Buffer.from(data, "base64").toString("utf8");
+
+    const { init, props } = JSON.parse(data, (key, value) => {
+      if (_.isPlainObject(value)) {
+        if (value.$type === "regex") {
+          const [, pattern, flags] = /^\/(.+)\/([a-z]*)$/.exec(value.value);
+          return RegExp(pattern, flags || "");
+        }
       }
-    );
+
+      return value;
+    });
 
     return new this(init, props);
   }

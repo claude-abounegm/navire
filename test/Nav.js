@@ -5,20 +5,20 @@ describe("Nav", function() {
   describe("should work with one link", function() {
     /**
      *
-     * @param {Nav} nav
+     * @param {Nav} navire
      */
-    function initNav(nav) {
-      nav.appendLink({ title: "Link1", href: "/link1" });
+    function initNav(navire) {
+      navire.appendLink({ title: "Link1", href: "/link1" });
     }
 
     /**
      *
-     * @param {Nav} nav
+     * @param {Nav} navire
      */
-    function testNav(nav) {
+    function testNav(navire) {
       const items = [];
-      nav.traverse(function(item, traverseChildren) {
-        expect(nav).to.be.equal(this);
+      navire.traverse(function(item, traverseChildren) {
+        expect(navire).to.be.equal(this);
 
         items.push(item);
 
@@ -57,9 +57,9 @@ describe("Nav", function() {
     }
 
     it("using ctor", function() {
-      const nav = new Nav(initNav, { props: { title: "App Title" } });
+      const navire = new Nav(initNav, { props: { title: "App Title" } });
 
-      const t = nav.traverse((item, traverseChildren) => {
+      const t = navire.traverse((item, traverseChildren) => {
         const { type, href, index } = item;
 
         if (type === "link") {
@@ -92,15 +92,15 @@ describe("Nav", function() {
         [["before", "/link1", "after"]]
       ]);
 
-      expect(nav.findByHref("/")).to.be.false;
+      expect(navire.findByHref("/")).to.be.false;
 
-      const titleNav = nav.findByHref("/title?x=5");
+      const titleNav = navire.findByHref("/title?x=5");
       expect(titleNav).to.not.be.false;
 
       expect(titleNav.level).to.be.equal(0);
 
       // divider-title test
-      const link2Nav = nav.findByHref("/link2");
+      const link2Nav = navire.findByHref("/link2");
       expect(link2Nav.level).to.be.equal(1);
     });
   });
@@ -108,8 +108,8 @@ describe("Nav", function() {
 
 describe("Nav", function() {
   it("ctor with array", function() {
-    const nav = new Nav(
-      nav => [
+    const navire = new Nav(
+      navire => [
         {
           type: "link",
           title: "Title",
@@ -121,7 +121,7 @@ describe("Nav", function() {
           title: "Category 1",
           children: () => [
             { type: "link", title: "Link 1", href: "/link1" },
-            { type: "divider", title: nav.props.title },
+            { type: "divider", title: navire.props.title },
             { type: "link", title: "Link 2", href: "/link2" }
           ]
         }
@@ -129,15 +129,15 @@ describe("Nav", function() {
       { props: { title: "Foo" } }
     );
 
-    const deserialized = Nav.deserialize(nav.serialize());
+    const serialized = navire.serialize();
+    const deserialized = Nav.deserialize(serialized);
 
-    expect(nav.build()).to.deep.equal(deserialized.build());
-    // console.dir(deserialized.build(), { depth: 100 });
+    expect(navire.build()).to.deep.equal(deserialized.build());
 
-    expect(nav.findByTitle("Link 3")).to.be.false;
-    expect(nav.findByTitle("Link 2")).to.not.be.false;
-    expect(nav.findByTitle(/Link/, true).length).to.equal(2);
-    expect(nav.get("Category 1.Foo")).to.not.be.false;
-    expect(nav.findByHref("/link1")).to.not.be.false;
+    expect(navire.findByTitle("Link 3")).to.be.false;
+    expect(navire.findByTitle("Link 2")).to.not.be.false;
+    expect(navire.findByTitle(/Link/, true).length).to.equal(2);
+    expect(navire.get("Category 1.Foo")).to.not.be.false;
+    expect(navire.findByHref("/link1")).to.not.be.false;
   });
 });

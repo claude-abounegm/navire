@@ -60,13 +60,17 @@ class NavItem {
     } else if (_.isArray(init)) {
       init.forEach(item => this.append(item));
     } else if (_.isPlainObject(init)) {
-      const { type, children, ...rest } = init;
+      let { type, children, ...rest } = init;
       if (!type) {
         throw new Error(
           `the type of the nav item needs to be defined for: ${JSON.stringify(
             init
           )}`
         );
+      }
+
+      if (type === "divider-title") {
+        type = "divider";
       }
 
       const fnName = `append${_.startCase(type)}`;
@@ -188,7 +192,7 @@ class NavItem {
       throw new Error("opts needs to be an object");
     }
 
-    const index = this._nextIndex;
+    const index = this._node.children.length + 1;
 
     if (title) {
       const navItem = this.appendChild(opts, {
@@ -259,10 +263,6 @@ class NavItem {
 
   activate() {
     this._nav._activeNavItemPath = this.path;
-  }
-
-  get _nextIndex() {
-    return this._node.children.length + 1;
   }
 
   get _isRootNode() {

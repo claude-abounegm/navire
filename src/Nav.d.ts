@@ -14,18 +14,20 @@ declare class Nav<PropsType = {}, DataType = {}> extends NavItem<DataType> {
   get(path: string): Nav.FindRet;
 
   findByTitle(title: string | RegExp, all: true): Nav.FindRet[];
-  findByTitle(title: string | RegExp, all?: boolean): Nav.FindRet;
+  findByTitle(title: string | RegExp, all?: false): Nav.FindRet;
 
   findByHref(opts: { href: string }): Nav.FindRet;
   findByHref(opts: { match: RegExp }): Nav.FindRet;
   findByHref(href: string): Nav.FindRet;
   findByHref(match: RegExp): Nav.FindRet;
 
+  serialize(): string;
+
   readonly props: PropsType & Nav.Props;
   readonly length: number;
   readonly activeNavPath: string | null;
 
-  // static NavExpress: typeof NavExpress;
+  static deserialize(data: string): Nav;
 }
 
 export = Nav;

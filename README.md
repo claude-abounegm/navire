@@ -109,7 +109,13 @@ An example on using this project with React.js can be found at: [navire-react-de
 
 ## Usage with jQuery
 
-An example on using this project with jQuery and Bootstrap can be found at `/dist/index.html`.
+An example on using this project with jQuery and Bootstrap can be found at `/browser/example/nav.js`.
+
+You can start the dev server to see the example by running:
+
+```bash
+npm run browser:dev
+```
 
 ## Plugins
 

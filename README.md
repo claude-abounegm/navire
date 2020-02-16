@@ -56,11 +56,11 @@ const navire = new Nav(
       type: "link",
       title: "Title",
       // Since the href of this nav is /title?search=45.
-      // This item can only be found by: nav.findByHref('/title?search=45')
+      // This item can only be found by: navire.findByHref('/title?search=45')
       href: "/title?search=45",
-      // the `match` field helps navire identify this nav
-      // item by href, so nav.findByHref('/title') now matches this element
-      // nav.findByHref('/title?foo=world'), also works, etc...
+      // The `match` field helps navire identify this nav
+      // item by href, so navire.findByHref('/title') now matches this element
+      // navire.findByHref('/title?foo=world'), also works, etc...
       match: /\/title/
     },
     {
@@ -93,11 +93,12 @@ const navire = new Nav(
       }
     }
   ],
-  // these are props that might be needed while rendering the navigation
-  // for example, the web app usually has a title and is placed in the
-  // navigation bar. Pass the attributes here, they can then be accessed
-  // as `nav.props.field`. Look at the divider above, the title of the
-  // divider will be "Foo"
+  // These are props that might be needed while rendering the navigation
+  // For example, a web app usually has a title and is placed in the
+  // navigation bar. If you are rendering the navigation bar and would like
+  // to keep all data related to navbar in one place, you can pass these
+  // attributes here. They can then be accessed later as `navire.props.field`.
+  // Look at the divider above, the title of the divider will be "Foo".
   { props: { title: "Foo" } }
 );
 ```

@@ -51,23 +51,23 @@ const navire = new Navire(
   //     the Navire instance as its first parameter
   // - you can also pass the array directly
   navire => [
-    // this is the first link in the navigation,
-    // you need to define a type.
+    // Every nav item needs to have a type.
     // The types currently supported are:
     //   ["category", "link", "divider"]
+    //   - "category" is used as a container for other nav items.
+    //   - "link" is used to represent a navigation link.
+    //   - "divider" is used to represent a divider. It can also have a title.
+    //  More details on each type can be found later in the documentation.
     //
-    //  More details on each type and how they can be used
-    //  can be found later in the documentation.
-    //
-    // (index 0, level 0)
+    // This is the first item in the navigation menu (index 0, level 0)
     {
       type: "link",
       title: "Title",
-      // Since the href of this nav is /title?search=45.
-      // This item can only be found by: navire.findByHref('/title?search=45')
+      // Since the href of this nav is /title?search=45,
+      // this item can only be found by: navire.findByHref('/title?search=45')
       href: "/title?search=45",
       // The `match` field helps navire identify this nav
-      // item by href, so navire.findByHref('/title') now matches this element
+      // item by href, so navire.findByHref('/title') now matches this element.
       // navire.findByHref('/title?foo=world'), also works, etc...
       match: /\/title/
     },

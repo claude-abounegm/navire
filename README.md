@@ -54,10 +54,9 @@ const shouldShowCategory = false;
 
 // Initialize navire
 const navire = new Navire(
-  // the first parameter initializes navire (the navigation tree):
-  // - you can pass a function, which gives you
-  //     the Navire instance as its first parameter
-  // - you can also pass the array directly
+  // the first parameter initializes navire, you can (the navigation tree):
+  //   - A function, which gives you the Navire instance as its first parameter
+  //   - An array directly
   navire => [
     // Every nav item needs to have a type.
     // The types currently supported are:
@@ -92,7 +91,7 @@ const navire = new Navire(
       // just like we passed a function to init navire, we can pass a function
       // here and append children in a functional manner. `navire` passes a
       // NavItem instance as it's first parameter, which points to the current
-      // nav item. In this case, it's "Category 1".
+      // nav item. In this case, it's the "Category 1" nav item.
       // You can also pass an array here, or pass a function that returns an array.
       // You choose what style you like best, and what best fits your needs.
       children: nav => {
@@ -121,7 +120,22 @@ const navire = new Navire(
 );
 ```
 
-Now that we initialized navire, we can proceed to **Step 2**, where we traverse the navigation tree and generate the front-end:
+Now that we initialized navire, we can do all sorts of things, ex:
+
+```javascript
+// this will find and return "Link 1" nav item
+const navLink1 = navire.findByHref("/link1");
+
+// this will set "Link 1" as the active nav item
+// since "Link 1" is a child of "Category 1",
+// "Category 1" will also be active.
+navLink1.activate();
+
+navLink1.active; // true
+navire.findByTitle("Category 1").active; // true
+```
+
+We can proceed to **Step 2**, where we traverse the navigation tree and generate the front-end:
 
 ```javascript
 navire.traverse((item, traverseChildren) => {

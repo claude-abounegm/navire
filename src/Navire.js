@@ -40,7 +40,7 @@ class Navire extends NavItem {
     let lastType;
 
     const _traverse = (node, index) => {
-      const { show, path, level, data, id } = node.model;
+      const { show, path, level, data, id, nav } = node.model;
       const { type } = data;
 
       if (_.isFunction(show)) {
@@ -60,15 +60,12 @@ class Navire extends NavItem {
 
       lastType = type;
 
-      const activePath = this._activeNavItemPath || "";
-      const active = activePath.startsWith(path);
-
       const item = {
         ...data,
         id,
         level,
         index,
-        active,
+        active: nav.active,
         path
       };
 

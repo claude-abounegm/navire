@@ -28,7 +28,7 @@ class NavItem {
     this._level = level;
     this._nav = nav;
 
-    node.model.navItem = this;
+    node.model.nav = this;
   }
 
   get path() {
@@ -41,6 +41,12 @@ class NavItem {
 
   get final() {
     return this._node.model.final;
+  }
+
+  get active() {
+    const activePath = this._nav._activeNavItemPath || "";
+
+    return activePath.startsWith(this.path);
   }
 
   get data() {

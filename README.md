@@ -52,6 +52,8 @@ const navire = new Nav(
     //
     //  More details on each type and how they can be used
     //  can be found later in the documentation.
+    //
+    // (index 0, level 0)
     {
       type: "link",
       title: "Title",
@@ -65,11 +67,12 @@ const navire = new Nav(
     },
     {
       // type "category" is a container for other nav elements, it can have
-      // a title and children.
+      // a title and children. (index 1, level 0)
       type: "category",
       title: "Category 1",
-      // show is a special field that can accept a function or boolean.
-      // if the field evaluates to true, the nav item is displayed,
+      // `show` is a field that can accept a function or boolean.
+      // It can be used on any nav item just like you specify `type` and `title`.
+      // If the field evaluates to true, the nav item is displayed,
       // otherwise, it is not shown and neither are its children.
       show: shouldShowCategory, // can also be () => shouldShowCategory
       // just like we passed a function to init navire, we can pass a function
@@ -80,14 +83,19 @@ const navire = new Nav(
       // You choose what style you like best, and what best fits your needs.
       children: nav => {
         // anything appended here will be appended to "Category 1" as a child.
+        // if the `show` field above evaluates to false, none of these items
+        // would be displayed.
 
-        // /link1 is the first child
+        // /link1 is the first child (index 0, level 1)
         nav.appendLink({ title: "Link 1", href: "/link1" });
-        // this is a "divider" with a title
+
+        // this is a "divider" with a title (index 1, level 1)
         nav.appendDivider({ title: navire.props.title }, nav => {
           // now appending children to the divider
 
-          // /link2 has index 2
+          // /link2 (index 0, level 1)
+          // dividers are a special case and they inherit their parent's
+          // level since a divider is not really a container.
           nav.appendLink({ title: "Link 2", href: "/link2" });
         });
       }

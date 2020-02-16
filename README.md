@@ -4,6 +4,8 @@ Simple, elegant navigation
 
 Navire ships with typings out of the box and can be used both server and client-side.
 
+---
+
 ## Usage
 
 ### npm
@@ -18,6 +20,8 @@ and then you can require it:
 const Navire = require("navire");
 ```
 
+---
+
 ### Browser
 
 Download `/browser/dist/navire-browser.js` and import in the browser like:
@@ -29,11 +33,15 @@ Download `/browser/dist/navire-browser.js` and import in the browser like:
 
 ### Instructions
 
+---
+
 `Navire` is the main class that is used for managing the full navigation tree. When initialized, we use `navire` to represent it. It contains methods such as `findByHref()`, `findByTitle()`, `get()`, and `traverse()`. These are essential to using navire effectively. `Navire` inherits from `NavItem`, so you also have access to the methods below.
 
 `NavItem` is the class that is used for navigation items such as links, categories and dividers. When initialized, we use `nav` to represent it. It contains methods such as `appendCategory()`, `appendDivider()`, `appendLink()`, and more.
 
-`navire` uses a two-step approach to build navigation.
+---
+
+`navire` uses a simple two-step approach to build navigation:
 
 1. Build the full navigation tree.
 2. Traverse the tree and build the front-end.
@@ -121,9 +129,13 @@ navire.traverse((item, traverseChildren) => {
 });
 ```
 
+---
+
 ## Usage with React.js
 
 An example on using this project with React.js can be found at: [navire-react-demo](https://github.com/claude-abounegm/navire-react-demo).
+
+---
 
 ## Usage with jQuery
 
@@ -134,6 +146,8 @@ You can start the dev server to see the example by running:
 ```bash
 npm run browser:dev
 ```
+
+---
 
 ## Plugins
 

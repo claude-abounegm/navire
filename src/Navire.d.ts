@@ -6,6 +6,7 @@ declare class Navire<PropsType = {}, DataType = {}> extends NavItem<DataType> {
 
   traverse<T>(
     cb: (
+      this: NavItem,
       item: Navire.TraverseItem,
       traverseChildren: <T>() => Navire.TraverseRet<T>
     ) => Navire.TraverseRet<T>

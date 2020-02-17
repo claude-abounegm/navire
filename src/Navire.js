@@ -69,7 +69,7 @@ class Navire extends NavItem {
         path
       };
 
-      return cb.call(this, item, () => traverseChildren(node));
+      return cb.call(nav, item, () => traverseChildren(node));
     };
 
     function traverseChildren(node) {

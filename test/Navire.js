@@ -18,7 +18,7 @@ describe("Nav", function() {
     function testNav(navire) {
       const items = [];
       navire.traverse(function(item, traverseChildren) {
-        expect(navire).to.be.equal(this);
+        expect(navire.get(this.path)).to.be.equal(this);
 
         items.push(item);
 

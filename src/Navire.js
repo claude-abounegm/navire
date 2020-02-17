@@ -197,23 +197,23 @@ class Navire extends NavItem {
   }
 
   serialize() {
-    let ret = {
-      init: this.build((key, value) => {
-        if (value instanceof RegExp) {
-          value = value.toString();
+    const init = this.build((key, value) => {
+      if (value instanceof RegExp) {
+        const [, pattern, flags] = value.toString().match(/^\/(.+)\/([a-z]*)$/);
+        return { $type: "regex", pattern, flags };
+      }
 
-          const [, pattern, flags] = /^\/(.+)\/([a-z]*)$/.exec(value);
+      return value;
+    });
 
-          return { $type: "regex", pattern, flags };
-        }
-        return value;
-      }),
+    let serialized = JSON.stringify({
+      init,
       props: this.props
-    };
+    });
 
-    ret = Buffer.from(JSON.stringify(ret), "utf8").toString("base64");
+    serialized = Buffer.from(serialized, "utf8").toString("base64");
 
-    return `navire:${ret}`;
+    return `navire:${serialized}`;
   }
 
   static deserialize(data) {
@@ -221,15 +221,10 @@ class Navire extends NavItem {
       throw new Error("data needs to be a navire serialized string");
     }
 
-    data = data.split("navire:")[1];
-
-    if (!data) {
-      throw new Error("data is not a navire serialized string");
-    }
-
-    data = Buffer.from(data, "base64").toString("utf8");
-
     try {
+      data = data.split("navire:")[1];
+      data = Buffer.from(data, "base64").toString("utf8");
+
       data = JSON.parse(data, (key, value) => {
         if (_.isPlainObject(value)) {
           const { $type } = value;

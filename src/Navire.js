@@ -16,8 +16,8 @@ class Navire extends NavItem {
 
     this._treeModel = treeModel;
 
-    // needed since we don't pass nav
-    // to super() before initializiation
+    // needed since we can't pass nav to super() before
+    // initializiation, so we set it here.
     this._nav = this;
     this._map = {};
     this._hrefs = {};
@@ -174,8 +174,6 @@ class Navire extends NavItem {
 
   build(transform) {
     return this.traverse((item, traverseChildren) => {
-      const children = traverseChildren();
-
       for (let [key, value] of _.toPairs(item)) {
         if (_.isFunction(transform)) {
           value = transform(key, value);
@@ -187,6 +185,8 @@ class Navire extends NavItem {
           item[key] = value;
         }
       }
+
+      const children = traverseChildren();
 
       if (children.length) {
         item.children = children;
@@ -200,7 +200,11 @@ class Navire extends NavItem {
     let ret = {
       init: this.build((key, value) => {
         if (value instanceof RegExp) {
-          return { $type: "regex", value: value.toString() };
+          value = value.toString();
+
+          const [, pattern, flags] = /^\/(.+)\/([a-z]*)$/.exec(value);
+
+          return { $type: "regex", pattern, flags };
         }
         return value;
       }),
@@ -228,11 +232,10 @@ class Navire extends NavItem {
     try {
       data = JSON.parse(data, (key, value) => {
         if (_.isPlainObject(value)) {
-          const { $type, value: match } = value;
+          const { $type } = value;
 
           if ($type === "regex") {
-            const [, pattern, flags] = /^\/(.+)\/([a-z]*)$/.exec(match);
-            return RegExp(pattern, flags || "");
+            return RegExp(value.pattern, value.flags || "");
           }
         }
 

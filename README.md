@@ -1,6 +1,6 @@
 # navire
 
-Simple, elegant navigation
+Simple, elegant navigation.
 
 Navire ships with typings out of the box and can be used both server and client-side.
 

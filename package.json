@@ -1,7 +1,7 @@
 {
   "name": "navire",
-  "version": "1.6.3",
-  "description": "Simple, elegant navigation",
+  "version": "1.6.4",
+  "description": "Simple, elegant navigation.",
   "main": "src/index.js",
   "directories": {
     "test": "test"

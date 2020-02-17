@@ -1,6 +1,7 @@
 "use strict";
 
 const _ = require("lodash");
+const TreeModel = require("tree-model");
 const { normalizeUrl } = require("./utils/url");
 const { generateId } = require("./utils/hash");
 
@@ -19,10 +20,12 @@ class NavItem {
     const { model } = node;
 
     let { path, level } = model;
-    if (!_.isNumber(level)) {
-      level = model.level = 0;
+
+    if (!_.isInteger(level)) {
+      throw new Error("level needs to be an integer");
     }
 
+    /** @type {TreeModel.Model<{}>} */
     this._node = node;
     this._path = path;
     this._level = level;
@@ -108,11 +111,9 @@ class NavItem {
     if (!_.isNumber(level)) {
       level = this.level;
 
-      // divider title can have children, but
-      // they get the same level as title because
-      // the title is usually a separator and not
-      // a container. A user would use { type: 'category' }
-      // instead for different behavior
+      // divider title can have children, but they get the same level as
+      // title because the title is usually a separator and not a container.
+      // A user would use { type: 'category' } instead for different behavior
       if (this.type !== "divider-title") {
         level += 1;
       }
@@ -141,11 +142,11 @@ class NavItem {
 
     if (_.isString(match)) {
       match = RegExp(match);
-      data.match = match;
     }
 
     if (match instanceof RegExp) {
       matches.push({ match, path });
+      data.match = match;
     }
 
     const node = this._node.addChild(
@@ -250,7 +251,7 @@ class NavItem {
       throw new Error("opts needs to be an object");
     }
 
-    let { title } = opts || {};
+    let { title, icon } = opts || {};
 
     if (_.isString(opts)) {
       title = opts;

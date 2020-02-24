@@ -140,6 +140,20 @@ navire.findByTitle("Category 1").active; // true
 We can proceed to **Step 2**, where we traverse the navigation tree and generate the front-end:
 
 ```javascript
+// Earlier, we looked at the navire item types, which were:
+//   ["category", "link", "divider"]
+//   - "category" is used as a container for other nav items.
+//   - "link" is used to represent a navigation link.
+//   - "divider" is used to represent a divider. It can also have a title.
+// We append links and dividers to categories, and we can also append categories
+// to other categories. You can build a navigation tree as deep as you want.
+// Every navire item comes with a "level" property. The level starts at 0 for
+// the root items and increases by one on every nested item.
+// Think:
+// - Category (level 0)
+//    -- Link (level 1)
+//    -- Link (level 1)
+// - Link     (level 0)
 navire.traverse((item, traverseChildren) => {
   // traverse
 });

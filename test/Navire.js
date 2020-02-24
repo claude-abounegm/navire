@@ -129,6 +129,9 @@ describe("Nav", function() {
       { props: { title: "Foo" } }
     );
 
+    expect(navire.findByTitle("Link 1").parent).to.not.be.null;
+    expect(navire.parent).to.be.null;
+
     const serialized = navire.serialize();
     const deserialized = Navire.deserialize(serialized);
 

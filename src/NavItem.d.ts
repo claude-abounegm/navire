@@ -8,6 +8,7 @@ declare class NavItem<DataType = {}> {
   readonly data: DataType;
   readonly length: number;
   readonly active: boolean;
+  readonly parent: NavItem | null;
 
   activate(): void;
 

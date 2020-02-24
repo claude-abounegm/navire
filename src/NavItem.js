@@ -43,7 +43,11 @@ class NavItem {
   }
 
   get final() {
-    return this._node.model.final;
+    return this._model.final;
+  }
+
+  get parent() {
+    return this._model.parent || null;
   }
 
   get active() {
@@ -53,7 +57,7 @@ class NavItem {
   }
 
   get data() {
-    return this._node.model.data || {};
+    return this._model.data || {};
   }
 
   get type() {
@@ -156,7 +160,8 @@ class NavItem {
         path,
         level,
         final,
-        data
+        data,
+        parent: this
       })
     );
 
@@ -276,6 +281,10 @@ class NavItem {
 
   get _isRootNode() {
     return false;
+  }
+
+  get _model() {
+    return this._node.model;
   }
 
   _constructPath(...items) {

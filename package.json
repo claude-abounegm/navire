@@ -9,7 +9,8 @@
   "scripts": {
     "test": "nyc mocha test/**/*.js",
     "browser:build": "webpack",
-    "browser:dev": "webpack-dev-server"
+    "browser:dev": "webpack-dev-server",
+    "prepublish": "npm run test && npm run browser:build"
   },
   "repository": {
     "type": "git",

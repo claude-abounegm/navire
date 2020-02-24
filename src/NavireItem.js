@@ -11,7 +11,7 @@ class NavireItem {
       throw new Error("opts needs to be an object");
     }
 
-    const { node, nav } = opts;
+    const { node, navire } = opts;
 
     if (!node) {
       throw new Error("node needs to be defined");
@@ -29,7 +29,7 @@ class NavireItem {
     this._node = node;
     this._path = path;
     this._level = level;
-    this._nav = nav;
+    this._navire = navire;
 
     node.model.nav = this;
   }
@@ -51,7 +51,7 @@ class NavireItem {
   }
 
   get active() {
-    const activePath = this._nav._activeNavireItemPath || "";
+    const activePath = this._navire._activeNavireItemPath || "";
 
     return activePath.startsWith(this.path);
   }
@@ -70,7 +70,7 @@ class NavireItem {
 
   append(init) {
     if (_.isFunction(init)) {
-      const ret = init(this);
+      const ret = init(this._isRootNode ? this._navire : this);
 
       if (_.isArray(ret)) {
         this.append(ret);
@@ -110,7 +110,7 @@ class NavireItem {
       _map: map,
       _hrefs: hrefs,
       _matches: matches
-    } = this._nav;
+    } = this._navire;
 
     if (!_.isNumber(level)) {
       level = this.level;
@@ -171,7 +171,7 @@ class NavireItem {
 
     const navItem = new NavireItem({
       node,
-      nav: this._nav
+      navire: this._navire
     });
 
     map[path] = navItem;
@@ -256,7 +256,7 @@ class NavireItem {
       throw new Error("opts needs to be an object");
     }
 
-    let { title, icon } = opts || {};
+    let { title } = opts || {};
 
     if (_.isString(opts)) {
       title = opts;
@@ -276,11 +276,7 @@ class NavireItem {
   }
 
   activate() {
-    this._nav._activeNavireItemPath = this.path;
-  }
-
-  get _isRootNode() {
-    return false;
+    this._navire._activeNavireItemPath = this.path;
   }
 
   get _model() {

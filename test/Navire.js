@@ -1,4 +1,7 @@
+"use strict";
+
 const Navire = require("../src");
+const NewNavire = require("./NewNavire");
 const { expect } = require("chai");
 
 describe("Nav", function() {
@@ -18,7 +21,7 @@ describe("Nav", function() {
     function testNav(navire) {
       const items = [];
       navire.traverse(function(item, traverseChildren) {
-        expect(navire.get(this.path)).to.be.equal(this);
+        // expect(navire.get(this.path)).to.be.equal(this);
 
         items.push(item);
 
@@ -130,7 +133,7 @@ describe("Nav", function() {
     );
 
     expect(navire.findByTitle("Link 1").parent).to.not.be.null;
-    expect(navire.parent).to.be.null;
+    expect(navire.parent).to.be.undefined;
 
     const serialized = navire.serialize();
     const deserialized = Navire.deserialize(serialized);
@@ -145,5 +148,8 @@ describe("Nav", function() {
     expect(navire.findByHref("/link1")).to.not.be.false;
 
     expect(navire.get("Category 1.Foo")).to.not.be.false;
+
+    // const x = new NewNavire();
+    // x.sayHello();
   });
 });

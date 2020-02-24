@@ -1,6 +1,6 @@
 import express from "express";
 
-declare class NavireItem<DataType = {}> {
+declare class NavireItem<DataType = {}> extends NavireItem.AppendFunctions {
   readonly id: string;
   readonly path: string;
   readonly level: number;
@@ -11,26 +11,28 @@ declare class NavireItem<DataType = {}> {
   readonly parent: NavireItem | null;
 
   activate(): void;
-
-  append(init: NavireItem.Init): void;
-
-  appendLink(opts: NavireItem.LinkOpts): NavireItem;
-  appendCategory(
-    opts: NavireItem.CategoryOpts,
-    init?: NavireItem.Init
-  ): NavireItem;
-
-  appendDivider(
-    opts: NavireItem.DividerOpts,
-    init?: NavireItem.Init
-  ): NavireItem;
-  appendDivider(): NavireItem;
-  appendDivider(title: string, init?: NavireItem.Init): NavireItem;
 }
 
 export = NavireItem;
 
 declare namespace NavireItem {
+  class AppendFunctions {
+    append(init: NavireItem.Init): void;
+
+    appendLink(opts: NavireItem.LinkOpts): NavireItem;
+    appendCategory(
+      opts: NavireItem.CategoryOpts,
+      init?: NavireItem.Init
+    ): NavireItem;
+
+    appendDivider(
+      opts: NavireItem.DividerOpts,
+      init?: NavireItem.Init
+    ): NavireItem;
+    appendDivider(): NavireItem;
+    appendDivider(title: string, init?: NavireItem.Init): NavireItem;
+  }
+
   interface AppendOpts {
     index?: number;
     show?: boolean | (() => boolean);

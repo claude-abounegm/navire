@@ -1,9 +1,10 @@
 import express from "express";
 import NavireItem from "./NavireItem";
 
-declare class Navire<PropsType = {}, DataType = {}> extends NavireItem<
-  DataType
-> {
+declare class Navire<
+  PropsType = {},
+  DataType = {}
+> extends NavireItem.AppendFunctions {
   constructor(init?: Navire.Init<PropsType>, opts?: Navire.CtorOpts<PropsType>);
 
   traverse<T>(

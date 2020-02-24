@@ -5,27 +5,52 @@ const TreeModel = require("tree-model");
 const NavireItem = require("./NavireItem");
 const { normalizeUrl } = require("./utils/url");
 
-class Navire extends NavireItem {
+class Navire {
   constructor(init, opts) {
     const { props } = opts || {};
 
     const treeModel = new TreeModel();
-    const rootNode = treeModel.parse({ root: true, path: "", level: -1 });
-
-    super({ node: rootNode });
-
     this._treeModel = treeModel;
 
-    // needed since we can't pass nav to super() before
-    // initializiation, so we set it here.
-    this._nav = this;
     this._map = {};
     this._hrefs = {};
     this._matches = [];
     this._showArgs = [];
-    this._props = _.isPlainObject(props) ? { ...props } : {};
+    this._props = { ...props };
 
-    this.append(init);
+    const rootNode = treeModel.parse({ root: true, path: "", level: -1 });
+    this._node = rootNode;
+
+    const nav = new NavireItem({
+      node: rootNode,
+      navire: this
+    });
+
+    nav._isRootNode = true;
+
+    this._navireItem = nav;
+
+    nav.append(init);
+  }
+
+  append() {
+    return this._navireItem.append(...arguments);
+  }
+
+  appendLink() {
+    return this._navireItem.appendLink(...arguments);
+  }
+
+  appendCategory() {
+    return this._navireItem.appendCategory(...arguments);
+  }
+
+  appendDivider() {
+    return this._navireItem.appendDivider(...arguments);
+  }
+
+  get length() {
+    return this._navireItem.length;
   }
 
   get props() {
@@ -39,7 +64,7 @@ class Navire extends NavireItem {
 
     let lastType;
 
-    const _traverse = (node, index) => {
+    const _traverse = (node, index, first = false) => {
       const { show, path, level, data, id, nav } = node.model;
       const { type } = data;
 
@@ -69,16 +94,16 @@ class Navire extends NavireItem {
         path
       };
 
-      return cb.call(nav, item, () => traverseChildren(node));
+      return cb.call(first || nav, item, () => traverseChildren(node));
     };
 
-    function traverseChildren(node) {
+    function traverseChildren(node, first) {
       return node.children
-        .map((node, index) => _traverse(node, index))
+        .map((node, index) => _traverse(node, index, first))
         .filter(item => !_.isUndefined(item) && item !== null);
     }
 
-    const ret = traverseChildren(this._node);
+    const ret = traverseChildren.call(this, this._node, this);
     if (ret.length) {
       return ret;
     }

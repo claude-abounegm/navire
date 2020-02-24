@@ -10,15 +10,15 @@ function generateId(type, path) {
   return id;
 }
 
-// function generateTimeBasedHash(hashLength = 6) {
-//   if (!_.isNumber(hashLength)) {
-//     throw new Error("hashLength needs to be a number greater than zero");
-//   }
+function generateTimeBasedHash(hashLength = 6) {
+  if (!_.isInteger(hashLength) || hashLength < 1) {
+    throw new Error("hashLength needs to be an integer greater than zero");
+  }
 
-//   const { length } = _.reverse(String(Date.now()));
-//   hashLength = _.clamp(hashLength, 1, length);
+  const { length } = _.reverse(String(Date.now()));
+  hashLength = _.clamp(hashLength, 1, length);
 
-//   return dateStr.slice(0, hashLength);
-// }
+  return dateStr.slice(0, hashLength);
+}
 
-module.exports = { generateId /*, generateTimeBasedHash*/ };
+module.exports = { generateId, generateTimeBasedHash };

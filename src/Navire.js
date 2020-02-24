@@ -30,7 +30,9 @@ class Navire {
 
     this._navireItem = nav;
 
-    nav.append(init);
+    if (_.isArray(init) || _.isFunction(init)) {
+      nav.append(init);
+    }
   }
 
   append() {
@@ -64,7 +66,7 @@ class Navire {
 
     let lastType;
 
-    const _traverse = (node, index, first = false) => {
+    const _traverse = (node, index) => {
       const { show, path, level, data, id, nav } = node.model;
       const { type } = data;
 
@@ -94,16 +96,16 @@ class Navire {
         path
       };
 
-      return cb.call(first || nav, item, () => traverseChildren(node));
+      return cb.call(nav, item, () => traverseChildren(node));
     };
 
-    function traverseChildren(node, first) {
+    function traverseChildren(node) {
       return node.children
-        .map((node, index) => _traverse(node, index, first))
+        .map((node, index) => _traverse(node, index))
         .filter(item => !_.isUndefined(item) && item !== null);
     }
 
-    const ret = traverseChildren.call(this, this._node, this);
+    const ret = traverseChildren(this._node);
     if (ret.length) {
       return ret;
     }

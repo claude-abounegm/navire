@@ -104,28 +104,28 @@ const navire = new Navire(
       // Just like we passed a function to initialize navire, we can also pass a function
       // here to append children. We can return an array like we did before, or we can use
       // navire's functional style of appending children. The function is invoked with its
-      // first parameter `nav` which is an instance of NavireItem. You can use methods such
-      // as nav.appendChild(), nav.appendCategory(), nav.appendDivider(), etc.
+      // first parameter `nav`- an instance of `NavireItem`. You can use methods such as
+      // nav.appendChild(), nav.appendCategory(), nav.appendDivider(), etc.
       // The `nav` param passed in this case, is "Category 1"'s nav item.
       children: nav => {
         // Anything appended here will be appended to "Category 1" as a child.
         // If the `show` field above evaluates to false, none of these items
         // would be displayed.
 
-        // Note how in the next statement we do not pass { "type": "..." }, since
-        // we are explicitly specifying the types by calling the `append${type}` methods.
+        // Note how in the next statement we do not pass { "type": "..." }, since we are
+        // explicitly specifying the types by calling the `append${type}` methods.
 
         // /link1 is the first child (index 0, level 1)
         nav.appendLink({ title: "Link 1", href: "/link1" });
-        // or: { type: "link", title: ... }
+        // equivalent to: { type: "link", title: ... }
 
         // this is a "divider" with a title (index 1, level 1)
         nav.appendDivider({ title: navire.props.title });
-        // or: { type: "title", title: ... }
+        // equivalent to: { type: "divider", title: ... }
 
         // /link2 (index 2, level 1)
         nav.appendLink({ title: "Link 2", href: "/link2" });
-        // or: { type: "link", title: ... }
+        // equivalent to: { type: "link", title: ... }
       }
     }
   ],

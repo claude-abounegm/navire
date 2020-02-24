@@ -137,14 +137,19 @@ Now that we initialized navire, we can do all sorts of things, ex:
 
 ```javascript
 // this will find and return "Link 1" nav item
-const navLink1 = navire.findByHref("/link1");
+const link1 = navire.findByHref("/link1");
+const category1 = navire.findByTitle("Category 1");
+
+link1.level; // 1
+link1.active; // false
+category1.active; // false
 
 // This will set "Link 1" as the active nav item. Since "Link 1"
 // is a child of "Category 1", "Category 1" will also be active.
-navLink1.activate();
+link1.activate();
 
-navLink1.active; // true
-navire.findByTitle("Category 1").active; // true
+link1.active; // true
+category1.active; // true
 ```
 
 We can proceed to **Step 2**, where we traverse the navigation tree and generate the front-end:

@@ -1,12 +1,14 @@
 import express from "express";
-import NavItem from "./NavItem";
+import NavireItem from "./NavireItem";
 
-declare class Navire<PropsType = {}, DataType = {}> extends NavItem<DataType> {
+declare class Navire<PropsType = {}, DataType = {}> extends NavireItem<
+  DataType
+> {
   constructor(init?: Navire.Init<PropsType>, opts?: Navire.CtorOpts<PropsType>);
 
   traverse<T>(
     cb: (
-      this: NavItem,
+      this: NavireItem,
       item: Navire.TraverseItem,
       traverseChildren: <T>() => Navire.TraverseRet<T>
     ) => Navire.TraverseRet<T>
@@ -59,13 +61,13 @@ declare namespace Navire {
   type InitFnVoid<PropsType> = (nav: Navire<PropsType>) => void;
   type InitFnReturnArray<PropsType> = (
     nav: Navire<PropsType>
-  ) => NavItem.CombinedObjOpts[];
+  ) => NavireItem.CombinedObjOpts[];
 
   type Init<PropsType> =
     | InitFnVoid<PropsType>
     | InitFnReturnArray<PropsType>
-    | NavItem.CombinedObjOpts
-    | NavItem.CombinedObjOpts[];
+    | NavireItem.CombinedObjOpts
+    | NavireItem.CombinedObjOpts[];
 
-  type FindRet = NavItem | false;
+  type FindRet = NavireItem | false;
 }

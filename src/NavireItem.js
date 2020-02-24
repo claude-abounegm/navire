@@ -5,7 +5,7 @@ const TreeModel = require("tree-model");
 const { normalizeUrl } = require("./utils/url");
 const { generateId } = require("./utils/hash");
 
-class NavItem {
+class NavireItem {
   constructor(opts) {
     if (!_.isPlainObject(opts)) {
       throw new Error("opts needs to be an object");
@@ -169,7 +169,7 @@ class NavItem {
       node.setIndex(index);
     }
 
-    const navItem = new NavItem({
+    const navItem = new NavireItem({
       node,
       nav: this._nav
     });
@@ -298,4 +298,4 @@ class NavItem {
   }
 }
 
-module.exports = NavItem;
+module.exports = NavireItem;

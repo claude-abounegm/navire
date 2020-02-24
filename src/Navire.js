@@ -2,10 +2,10 @@
 
 const _ = require("lodash");
 const TreeModel = require("tree-model");
-const NavItem = require("./NavItem");
+const NavireItem = require("./NavireItem");
 const { normalizeUrl } = require("./utils/url");
 
-class Navire extends NavItem {
+class Navire extends NavireItem {
   constructor(init, opts) {
     const { props } = opts || {};
 

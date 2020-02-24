@@ -1,6 +1,6 @@
 import express from "express";
 
-declare class NavItem<DataType = {}> {
+declare class NavireItem<DataType = {}> {
   readonly id: string;
   readonly path: string;
   readonly level: number;
@@ -8,21 +8,21 @@ declare class NavItem<DataType = {}> {
   readonly data: DataType;
   readonly length: number;
   readonly active: boolean;
-  readonly parent: NavItem | null;
+  readonly parent: NavireItem | null;
 
   activate(): void;
 
   append(init: NavItem.Init): void;
 
-  appendLink(opts: NavItem.LinkOpts): NavItem;
-  appendCategory(opts: NavItem.CategoryOpts, init?: NavItem.Init): NavItem;
+  appendLink(opts: NavItem.LinkOpts): NavireItem;
+  appendCategory(opts: NavItem.CategoryOpts, init?: NavItem.Init): NavireItem;
 
-  appendDivider(opts: NavItem.DividerOpts, init?: NavItem.Init): NavItem;
-  appendDivider(): NavItem;
-  appendDivider(title: string, init?: NavItem.Init): NavItem;
+  appendDivider(opts: NavItem.DividerOpts, init?: NavItem.Init): NavireItem;
+  appendDivider(): NavireItem;
+  appendDivider(title: string, init?: NavItem.Init): NavireItem;
 }
 
-export = NavItem;
+export = NavireItem;
 
 declare namespace NavItem {
   interface AppendOpts {
@@ -65,8 +65,8 @@ declare namespace NavItem {
 
   type CombinedObjOpts = LinkObjOpts | DividerObjOpts | CategoryObjOpts;
 
-  type InitFnVoid = (nav: NavItem) => void;
-  type InitFnReturnArray = (nav: NavItem) => CombinedObjOpts[];
+  type InitFnVoid = (nav: NavireItem) => void;
+  type InitFnReturnArray = (nav: NavireItem) => CombinedObjOpts[];
   type Init =
     | InitFnVoid
     | InitFnReturnArray

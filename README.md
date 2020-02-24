@@ -64,7 +64,17 @@ const navire = new Navire(
     //   - "category" is used as a container for other nav items.
     //   - "link" is used to represent a navigation link.
     //   - "divider" is used to represent a divider. It can also have a title.
-    //  More details on each type can be found later in the documentation.
+    //
+    // We append links and dividers to categories, and we can also append categories
+    // to other categories. You can build a navigation tree as deep as you want.
+    // Every navire item comes with a "level" property. The level starts at 0 for
+    // the root items and increases by one on every nested item, ex:
+    //  - Link     (index 0, level 0)
+    //  - Category (index 1, level 0)
+    //     -- Link (index 0, level 1)
+    //     -- Link (index 0, level 1)
+    //  - Link     (index 2, level 0)
+    // More details on each type can be found later in the documentation.
     //
     // This is the first item in the navigation menu (index 0, level 0)
     {
@@ -140,20 +150,6 @@ navire.findByTitle("Category 1").active; // true
 We can proceed to **Step 2**, where we traverse the navigation tree and generate the front-end:
 
 ```javascript
-// Earlier, we looked at the navire item types, which were:
-//   ["category", "link", "divider"]
-//   - "category" is used as a container for other nav items.
-//   - "link" is used to represent a navigation link.
-//   - "divider" is used to represent a divider. It can also have a title.
-// We append links and dividers to categories, and we can also append categories
-// to other categories. You can build a navigation tree as deep as you want.
-// Every navire item comes with a "level" property. The level starts at 0 for
-// the root items and increases by one on every nested item.
-// Think:
-// - Category (level 0)
-//    -- Link (level 1)
-//    -- Link (level 1)
-// - Link     (level 0)
 navire.traverse((item, traverseChildren) => {
   // traverse
 });

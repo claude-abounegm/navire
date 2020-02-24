@@ -104,10 +104,8 @@ const navire = new Navire(
       // Just like we passed a function to initialize navire, we can also pass a function
       // here to append children. We can return an array like we did before, or we can use
       // navire's functional style of appending children. The function is invoked with its
-      // first parameter `nav`- an instance of `NavireItem`. You can use methods such as
-      // nav.appendChild(), nav.appendCategory(), nav.appendDivider(), etc.
-      // The `nav` param passed in this case, is "Category 1"'s nav item.
-      children: nav => {
+      // first parameter `nav`- an instance of `NavireItem`.
+      children: /* "Category 1" */ nav => {
         // Anything appended here will be appended to "Category 1" as a child.
         // If the `show` field above evaluates to false, none of these items
         // would be displayed.
@@ -161,7 +159,7 @@ category1.active; // true
 link1.active; // true
 ```
 
-We can proceed to **Step 2**, where we traverse the navigation tree and generate the front-end:
+Now that you understand the structure of `navire` a little, we can proceed to **Step 2**, where we traverse the navigation tree and generate the front-end:
 
 ```javascript
 navire.traverse((item, traverseChildren) => {

@@ -1,6 +1,6 @@
 {
   "name": "navire",
-  "version": "1.6.9",
+  "version": "1.6.12",
   "description": "Simple, elegant navigation.",
   "main": "src/index.js",
   "directories": {
@@ -10,7 +10,7 @@
     "test": "nyc mocha test/**/*.js",
     "browser:build": "webpack",
     "browser:dev": "webpack-dev-server",
-    "prepublish": "npm run test && npm run browser:build"
+    "prepublishOnly": "npm i && npm run test && npm run browser:build"
   },
   "repository": {
     "type": "git",

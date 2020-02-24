@@ -1,7 +1,6 @@
 "use strict";
 
 const Navire = require("../src");
-const NewNavire = require("./NewNavire");
 const { expect } = require("chai");
 
 describe("Nav", function() {
@@ -149,7 +148,7 @@ describe("Nav", function() {
 
     expect(navire.get("Category 1.Foo")).to.not.be.false;
 
-    // const x = new NewNavire();
+    // const x = new CustomNavire();
     // x.sayHello();
   });
 });

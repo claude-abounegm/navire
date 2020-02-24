@@ -35,9 +35,9 @@ Download `/browser/dist/navire-browser.js` and import in the browser like:
 
 ---
 
-`Navire` is the main class that is used for managing the full navigation tree. When initialized, we use `navire` to represent it. It contains methods such as `findByHref()`, `findByTitle()`, `get()`, and `traverse()`. These are essential to using navire effectively. `Navire` inherits from `NavireItem`, so you also have access to the methods below.
+`Navire` is the main class that is used for managing the full navigation tree. When initialized, we use `navire` to represent it. It contains methods such as `findByHref()`, `findByTitle()`, `get()`, and `traverse()`. These are essential to using navire effectively. `Navire` also share some methods with `NavireItem` such as `append()`, `appendCategory()`, `appendDivider()`, `appendLink()`.
 
-`NavireItem` is the class that is used for navigation items such as links, categories and dividers. When initialized, we use `nav` to represent it. It contains methods such as `appendCategory()`, `appendDivider()`, `appendLink()`, and more.
+`NavireItem` is the class that is used for navigation items such as links, categories and dividers. When initialized, we use `nav` to represent it. It contains methods such as `append()`, `appendCategory()`, `appendDivider()`, `appendLink()`, and more.
 
 ---
 
@@ -64,6 +64,7 @@ const navire = new Navire(
     //   - "category" is used as a container for other nav items.
     //   - "link" is used to represent a navigation link.
     //   - "divider" is used to represent a divider. It can also have a title.
+    // More details on each type can be found later in the documentation.
     //
     // We append links and dividers to categories, and we can also append categories
     // to other categories. You can build a navigation tree as deep as you want.
@@ -72,13 +73,13 @@ const navire = new Navire(
     //  - Link        (index 0, level 0)
     //  - Category    (index 1, level 0)
     //    -- Link     (index 0, level 1)
-    //    -- Link     (index 1, level 1)
-    //    -- Category (index 2, level 1)
-    //       -- Link  (index 0, level 2)
+    //    -- Divider  (index 1, level 1)
+    //    -- Link     (index 2, level 1)
     //  - Link        (index 2, level 0)
-    // More details on each type can be found later in the documentation.
     //
-    // This is the first item in the navigation menu (index 0, level 0)
+    // We will now build this tree in code:
+    //
+    // This is the first item in the navigation menu (index 0, level 0):
     {
       type: "link",
       title: "Title",
@@ -100,28 +101,31 @@ const navire = new Navire(
       // If the field evaluates to true, the nav item is displayed,
       // otherwise, it is not shown and neither are its children.
       show: shouldShowCategory, // can also be () => shouldShowCategory
-      // just like we passed a function to init navire, we can pass a function
-      // here and append children in a functional manner. `navire` passes a
-      // NavireItem instance as it's first parameter, which points to the current
-      // nav item. In this case, it's the "Category 1" nav item.
-      // You can also pass an array here, or pass a function that returns an array.
-      // You choose what style you like best, and what best fits your needs.
+      // Just like we passed a function to initialize navire, we can also pass a function
+      // here to append children. We can return an array like we did before, or we can use
+      // navire's functional style of appending children. The function is invoked with its
+      // first parameter `nav` which is an instance of NavireItem. You can use methods such
+      // as nav.appendChild(), nav.appendCategory(), nav.appendDivider(), etc.
+      // The `nav` param passed in this case, is "Category 1"'s nav item.
       children: nav => {
         // Anything appended here will be appended to "Category 1" as a child.
         // If the `show` field above evaluates to false, none of these items
         // would be displayed.
 
-        // Note how in the next statement we do not pass { "type": "$value" },
-        // since we are explicitly specifying the types by calling the methods.
+        // Note how in the next statement we do not pass { "type": "..." }, since
+        // we are explicitly specifying the types by calling the `append${type}` methods.
 
         // /link1 is the first child (index 0, level 1)
         nav.appendLink({ title: "Link 1", href: "/link1" });
+        // or: { type: "link", title: ... }
 
         // this is a "divider" with a title (index 1, level 1)
         nav.appendDivider({ title: navire.props.title });
+        // or: { type: "title", title: ... }
 
         // /link2 (index 2, level 1)
         nav.appendLink({ title: "Link 2", href: "/link2" });
+        // or: { type: "link", title: ... }
       }
     }
   ],
@@ -138,20 +142,23 @@ const navire = new Navire(
 Now that we initialized navire, we can do all sorts of things, ex:
 
 ```javascript
-// this will find and return "Link 1" nav item
-const link1 = navire.findByHref("/link1");
+// find category by title
 const category1 = navire.findByTitle("Category 1");
+// find "Link 1" by href
+const link1 = navire.findByHref("/link1");
+
+category1.level; // 0
+category1.active; // false
 
 link1.level; // 1
 link1.active; // false
-category1.active; // false
 
-// This will set "Link 1" as the active nav item. Since "Link 1"
-// is a child of "Category 1", "Category 1" will also be active.
+// This will set "Link 1" as the active navigation item.
+// "Category 1" is the parent of "Link 1" so both will be active
 link1.activate();
 
-link1.active; // true
 category1.active; // true
+link1.active; // true
 ```
 
 We can proceed to **Step 2**, where we traverse the navigation tree and generate the front-end:

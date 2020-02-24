@@ -120,8 +120,8 @@ class Navire {
 
     const allItems = [];
 
-    for (const [, navItem] of _.toPairs(this._map)) {
-      const { data } = navItem;
+    for (const [, nav] of _.toPairs(this._map)) {
+      const { data } = nav;
       let found = false;
 
       if (title instanceof RegExp) {
@@ -134,10 +134,10 @@ class Navire {
 
       if (found) {
         if (!all) {
-          return navItem;
+          return nav;
         }
 
-        allItems.push(navItem);
+        allItems.push(nav);
       }
     }
 
@@ -266,10 +266,6 @@ class Navire {
     }
 
     return new this(data.init, data.props);
-  }
-
-  get _isRootNode() {
-    return true;
   }
 }
 

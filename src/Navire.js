@@ -169,7 +169,7 @@ class Navire extends NavireItem {
   }
 
   get activeNavPath() {
-    return this._activeNavItemPath || null;
+    return this._activeNavireItemPath || null;
   }
 
   build(transform) {

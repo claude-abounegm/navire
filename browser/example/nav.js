@@ -17,11 +17,11 @@
 
   // find a nav item based on the browser's current location
   // and activate it if it was found.
-  const activeNavItem = navire.findByHref(window.location.pathname);
+  const activeNavireItem = navire.findByHref(window.location.pathname);
 
   // if a valid nav item was found, then we can activate it
-  if (activeNavItem) {
-    activeNavItem.activate();
+  if (activeNavireItem) {
+    activeNavireItem.activate();
   }
 
   $("nav ul").append(

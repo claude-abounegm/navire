@@ -35,9 +35,9 @@ Download `/browser/dist/navire-browser.js` and import in the browser like:
 
 ---
 
-`Navire` is the main class that is used for managing the full navigation tree. When initialized, we use `navire` to represent it. It contains methods such as `findByHref()`, `findByTitle()`, `get()`, and `traverse()`. These are essential to using navire effectively. `Navire` inherits from `NavItem`, so you also have access to the methods below.
+`Navire` is the main class that is used for managing the full navigation tree. When initialized, we use `navire` to represent it. It contains methods such as `findByHref()`, `findByTitle()`, `get()`, and `traverse()`. These are essential to using navire effectively. `Navire` inherits from `NavireItem`, so you also have access to the methods below.
 
-`NavItem` is the class that is used for navigation items such as links, categories and dividers. When initialized, we use `nav` to represent it. It contains methods such as `appendCategory()`, `appendDivider()`, `appendLink()`, and more.
+`NavireItem` is the class that is used for navigation items such as links, categories and dividers. When initialized, we use `nav` to represent it. It contains methods such as `appendCategory()`, `appendDivider()`, `appendLink()`, and more.
 
 ---
 
@@ -102,7 +102,7 @@ const navire = new Navire(
       show: shouldShowCategory, // can also be () => shouldShowCategory
       // just like we passed a function to init navire, we can pass a function
       // here and append children in a functional manner. `navire` passes a
-      // NavItem instance as it's first parameter, which points to the current
+      // NavireItem instance as it's first parameter, which points to the current
       // nav item. In this case, it's the "Category 1" nav item.
       // You can also pass an array here, or pass a function that returns an array.
       // You choose what style you like best, and what best fits your needs.

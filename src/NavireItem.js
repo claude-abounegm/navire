@@ -51,7 +51,7 @@ class NavireItem {
   }
 
   get active() {
-    const activePath = this._nav._activeNavItemPath || "";
+    const activePath = this._nav._activeNavireItemPath || "";
 
     return activePath.startsWith(this.path);
   }
@@ -276,7 +276,7 @@ class NavireItem {
   }
 
   activate() {
-    this._nav._activeNavItemPath = this.path;
+    this._nav._activeNavireItemPath = this.path;
   }
 
   get _isRootNode() {

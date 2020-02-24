@@ -12,19 +12,25 @@ declare class NavireItem<DataType = {}> {
 
   activate(): void;
 
-  append(init: NavItem.Init): void;
+  append(init: NavireItem.Init): void;
 
-  appendLink(opts: NavItem.LinkOpts): NavireItem;
-  appendCategory(opts: NavItem.CategoryOpts, init?: NavItem.Init): NavireItem;
+  appendLink(opts: NavireItem.LinkOpts): NavireItem;
+  appendCategory(
+    opts: NavireItem.CategoryOpts,
+    init?: NavireItem.Init
+  ): NavireItem;
 
-  appendDivider(opts: NavItem.DividerOpts, init?: NavItem.Init): NavireItem;
+  appendDivider(
+    opts: NavireItem.DividerOpts,
+    init?: NavireItem.Init
+  ): NavireItem;
   appendDivider(): NavireItem;
-  appendDivider(title: string, init?: NavItem.Init): NavireItem;
+  appendDivider(title: string, init?: NavireItem.Init): NavireItem;
 }
 
 export = NavireItem;
 
-declare namespace NavItem {
+declare namespace NavireItem {
   interface AppendOpts {
     index?: number;
     show?: boolean | (() => boolean);

@@ -68,12 +68,14 @@ const navire = new Navire(
     // We append links and dividers to categories, and we can also append categories
     // to other categories. You can build a navigation tree as deep as you want.
     // Every navire item comes with a "level" property. The level starts at 0 for
-    // the root items and increases by one on every nested item, ex:
-    //  - Link     (index 0, level 0)
-    //  - Category (index 1, level 0)
-    //     -- Link (index 0, level 1)
-    //     -- Link (index 0, level 1)
-    //  - Link     (index 2, level 0)
+    // the root items and increases by one on every nested item, example:
+    //  - Link        (index 0, level 0)
+    //  - Category    (index 1, level 0)
+    //    -- Link     (index 0, level 1)
+    //    -- Link     (index 1, level 1)
+    //    -- Category (index 2, level 1)
+    //       -- Link  (index 0, level 2)
+    //  - Link        (index 2, level 0)
     // More details on each type can be found later in the documentation.
     //
     // This is the first item in the navigation menu (index 0, level 0)
